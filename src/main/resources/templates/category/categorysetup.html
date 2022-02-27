@@ -27,10 +27,11 @@
                 <th>Description</th>
                 <th>Action</th>
             </tr>
-            <tr >
-                <td>Demo</td>
-                <td>Demo</td>
-                <td>Demo</td>
+            <tr th:each="category,index : ${categoryList}">
+                <td th:text="${index.count}"></td>
+                <td th:text="${category.name}"></td>
+                <td th:text="${category.discription}"></td>
+
                 <td>
                     <a href=""><button>Delete</button></a>
                     |

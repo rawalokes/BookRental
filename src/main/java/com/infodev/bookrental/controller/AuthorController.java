@@ -4,13 +4,7 @@ import com.infodev.bookrental.dto.AuthorDto;
 import com.infodev.bookrental.service.impl.AuthorServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author rawalokes
@@ -39,10 +33,25 @@ public class AuthorController {
     }
 
     @PostMapping("/create")
-    public String addAuthor( @ModelAttribute("authorDetails") AuthorDto authorDto) {
-//
+    public String addAuthor(@ModelAttribute("authorDetails") AuthorDto authorDto) {
+
         authorService.create(authorDto);
         return "redirect:/author/getall";
 
     }
+
+    @GetMapping("/delete/{id}")
+    public String removeAuthorByI(@PathVariable Integer id) {
+        authorService.deleteById(id);
+        return "redirect:/author/getall";
+    }
+
+    @GetMapping("/upadte/{id}")
+    public String updateAuthorByI(@PathVariable Integer id, Model model) {
+        AuthorDto authorDto = authorService.findById(id);
+        model.addAttribute("authorDetails",authorDto);
+
+        return "/author/authorCreate";
+    }
+
 }

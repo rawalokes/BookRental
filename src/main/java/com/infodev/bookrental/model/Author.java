@@ -3,7 +3,6 @@ package com.infodev.bookrental.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 /**
  * @author rawalokes
@@ -28,7 +27,7 @@ public class Author {
     @Column(name = "author_name",length = 30)
     private String name;
 
-    @Column(name ="author_email",length = 50 )
+    @Column(name ="author_email",length = 100 )
     private String email;
 
     @Column(name ="author_phone", length = 10)

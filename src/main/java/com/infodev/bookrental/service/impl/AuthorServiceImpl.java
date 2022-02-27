@@ -69,7 +69,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void deleteById(Integer id) {
-
+        authorRepo.deleteById(id);
 
     }
 }

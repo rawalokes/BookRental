@@ -21,25 +21,27 @@
             <a th:href="@{~/author/create}"><button>Create</button></a>
 
         </div>
-        <!-- <span>Breakpoints on 900px and 400px</span> -->
+
         <table id="customers">
             <tr >
                 <th>SN</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
-                <th>Action</th>
+<!--                <th>Update</th>-->
+<!--                <th>Delete</th>-->
             </tr>
             <tr th:each="author,index : ${authorList}">
                 <td th:text="${index.count}"></td>
-                <td th:text="${author.name}">Demo</td>
-                <td th:text="${author.email}">Demo</td>
-                <td th:text="${author.number}">Demo</td>
+                <td th:text="${author.name}"></td>
+                <td th:text="${author.email}"></td>
+                <td th:text="${author.number}"></td>
 
                 <td>
-                    <a th:href="@{author/delete}"><button>Delete</button></a>
-
-                    <a th:href="@{author/edit}"><button>Edit</button></a>
+                    <a th:href="@{~/author/delete/{id} (id= ${author.id})}"><button>Delete</button></a>
+                </td>
+                <td>
+                    <a th:href="@{~/author/upadte/{id} (id=${author.id})}"><button>Edit</button></a>
                 </td>
             </tr>
 
