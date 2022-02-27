@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" th:href="@{../css/style.css}">
+
+</head>
+<body>
+<div th:replace="fragments/sidenavbar :: navbar"></div>
+
+<main>
+    <div class="helper">
+        <div class="title">
+            <h3>Author Setup</h3>
+        </div>
+
+        <div class="create-action">
+            <a th:href="@{~/author/getall}">
+                <button>Back</button>
+            </a>
+        </div>
+        <!-- <span>Breakpoints on 900px and 400px</span> -->
+
+        <div class="create-action2">
+            <form th:action="@{/author/create}" th:object="${authorDetails}" method="post">
+
+                <ul class="form-style-1">
+                    <input type="hidden" name="id" th:field="*{id}">
+                    <li>
+                        <input th:field="*{name}" type="text" name="name" class="field-divided" placeholder="Name"/>
+                        <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                        <input th:field="*{email}" type="email" name="email" class="field-divided" placeholder="Email"/>
+                        <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{email}"></p>
+                    </li>
+                    <li>
+                        <input th:field="*{number}" type="text" name="mobile" class="field-long"
+                               placeholder="Mobile Number"/>
+                        <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{number}"></p>
+                    </li>
+                </ul>
+                <input type="submit" value="Submit"/>
+                <input type="reset"/>
+            </form>
+            <div>
+
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

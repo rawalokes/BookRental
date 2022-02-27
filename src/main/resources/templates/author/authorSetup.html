@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+    <link rel="stylesheet" th:href="@{../css/style.css}">
+</head>
+<body>
+<div th:replace="fragments/sidenavbar :: navbar"></div>
+<main>
+    <div class="helper">
+        <div class="title">
+            <h3>Author Setup</h3>
+        </div>
+
+        <div class="create-action">
+            <a th:href="@{~/author/create}"><button>Create</button></a>
+
+        </div>
+        <!-- <span>Breakpoints on 900px and 400px</span> -->
+        <table id="customers">
+            <tr >
+                <th>SN</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Action</th>
+            </tr>
+            <tr th:each="author,index : ${authorList}">
+                <td th:text="${index.count}"></td>
+                <td th:text="${author.name}">Demo</td>
+                <td th:text="${author.email}">Demo</td>
+                <td th:text="${author.number}">Demo</td>
+
+                <td>
+                    <a th:href="@{author/delete}"><button>Delete</button></a>
+
+                    <a th:href="@{author/edit}"><button>Edit</button></a>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</main>
+</body>
+</html>
+

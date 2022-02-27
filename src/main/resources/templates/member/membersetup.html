@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" th:href="@{../css/style.css}">
+
+</head>
+<body>
+<div th:replace="fragments/sidenavbar :: navbar"></div>
+
+<main>
+    <div class="helper">
+        <div class="title">
+            <h3>Member Setup</h3>
+        </div>
+
+        <div class="create-action">
+            <a href="member_create.html"><button>Create</button></a>
+        </div>
+        <!-- <span>Breakpoints on 900px and 400px</span> -->
+        <table id="customers">
+            <tr>
+                <th>SN</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td>Demo</td>
+                <td>Demo</td>
+                <td>Demo</td>
+                <td>
+                    <a href=""><button>Delete</button></a>
+                    |
+                    <a href=""><button>Edit</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>Demo</td>
+                <td>Demo</td>
+                <td>Demo</td>
+                <td>
+                    <a href=""><button>Delete</button></a>
+                    |
+                    <a href=""><button>Edit</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>Demo</td>
+                <td>Demo</td>
+                <td>Demo</td>
+                <td>
+                    <a href=""><button>Delete</button></a>
+                    |
+                    <a href=""><button>Edit</button></a>
+                </td>
+            </tr>
+            <tr>
+                <td>Demo</td>
+                <td>Demo</td>
+                <td>Demo</td>
+                <td>
+                    <a href=""><button>Delete</button></a>
+                    |
+                    <a href=""><button>Edit</button></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

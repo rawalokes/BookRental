@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" th:href="@{../css/style.css}">
+</head>
+<body>
+<div th:replace="fragments/sidenavbar :: navbar"></div>
+<main>
+    <div class="helper">
+        <div class="title">
+            <h3>Category Setup</h3>
+        </div>
+
+        <div class="create-action">
+            <a th:href="@{~/category/setup}"><button>Create</button></a>
+        </div>
+        <!-- <span>Breakpoints on 900px and 400px</span> -->
+
+        <div class="create-action2">
+            <form th:action="@{~/category/setup}" th:object="${categories}" method="POST">
+                <ul class="form-style-1">
+                    <input type="hidden" name="id" th:field="*{id}">
+                    <li>
+                        <input th:field="*{name}" type="text" name="name" class="field-long" placeholder="Name" required />
+                    </li>
+                    <li>
+                        <input th:field="*{discription}" type="text" name="description" class="field-long" placeholder="Description" required />
+                    </li>
+                </ul>
+                <input type="submit" value="Submit" />
+                <input type="reset" />
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>
