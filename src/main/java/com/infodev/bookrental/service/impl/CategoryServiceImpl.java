@@ -21,20 +21,17 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepo categoryRepo;
 
     public CategoryServiceImpl(CategoryRepo categoryRepo) {
+
         this.categoryRepo = categoryRepo;
     }
 
 
     @Override
     public CategoryDto create(CategoryDto categoryDto) {
-        Category category = Category.builder()
-                .id(categoryDto.getId())
-                .name(categoryDto.getName())
-                .description(categoryDto
-                        .getDiscription()).build();
+        Category category = categoryToDto(categoryDto);
+        System.out.println("3453######################################334323");
         category = categoryRepo.save(category);
-
-        return CategoryDto.builder().id(category.getId()).name(category.getName()).discription(category.getDescription()).build();
+        return toCategoryDto(category);
     }
 
     @Override
@@ -48,13 +45,44 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> category = categoryRepo.findById(id);
         if (category.isPresent()) {
             Category reteriveCategory = category.get();
-            return CategoryDto.builder().id(reteriveCategory.getId()).name(reteriveCategory.getName()).discription(reteriveCategory.getDescription()).build();
+            return toCategoryDto(reteriveCategory);
         }
         return null;
     }
 
     @Override
     public void deleteById(Integer id) {
+        categoryRepo.deleteById(id);
 
+    }
+
+
+    /**
+     * map category into categoryDTO
+     *
+     * @param category to be mapped on dto
+     * @return categoryDto
+     */
+    private CategoryDto toCategoryDto(Category category) {
+        return CategoryDto.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .discription(category.getDescription())
+                .build();
+
+    }
+
+    /**
+     *
+     *  map DTO into cartegory
+     * @param categoryDto to be maped into cagegory
+     * @return category
+     */
+    private Category categoryToDto(CategoryDto categoryDto) {
+        return Category.builder()
+                .id(categoryDto.getId())
+                .name(categoryDto.getName())
+                .description(categoryDto.getDiscription())
+                .build();
     }
 }

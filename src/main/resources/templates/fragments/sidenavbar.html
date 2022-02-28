@@ -13,16 +13,16 @@
         <nav class="menu">
             <div class="smartphone-menu-trigger"></div>
             <header>
-                <h3><a href="landing_page.html">Book Rental System</a></h3>
+                <h3><a href="..//index.html">Book Rental System</a></h3>
             </header>
             <ul>
                 <li>
                     <label for="item-1">Master Data</label>
                     <input type="checkbox" id="item-1" />
                     <ul>
-                        <li><a href="author_setup.html">Author Setup</a></li>
-                        <li><a href="category.html">Category Setup</a></li>
-                        <li><a href="member.html">Customer Setup</a></li>
+                        <li><a th:href="@{~/author/getall}">Author Setup</a></li>
+                        <li><a th:href="@{~/category/setup}">Category Setup</a></li>
+                        <li><a th:href="@{~/member/setup}">Customer Setup</a></li>
                         <li><a href="book.html">Book Setup</a></li>
                     </ul>
                 </li>

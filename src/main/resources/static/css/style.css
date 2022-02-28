@@ -51,7 +51,7 @@ tr > td > a > button {
     background-color: rgb(22, 135, 170);
     border: none;
     color: #fff;
-    padding: 10px 20px;
+    /*padding: 10px 20px;*/
     border-radius: 15px;
     cursor: pointer;
 }
@@ -196,13 +196,13 @@ main {
 }
 main .helper {
     position: absolute;
-    top: 30%;
+    top: 35%;
     left:60%;
     transform: translate3d(-50%, -50%, 0);
     padding: 1.2em 2em;
     text-align: center;
-    border-radius: 20px;
-    font-size: 1.5em;
+    border-radius: 8px;
+
 }
 main .helper span {
     color: rgba(0, 0, 0, 0.2);

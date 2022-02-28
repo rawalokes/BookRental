@@ -28,7 +28,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
-<!--                <th>Update</th>-->
+                <th>Action</th>
 <!--                <th>Delete</th>-->
             </tr>
             <tr th:each="author,index : ${authorList}">
@@ -41,7 +41,7 @@
                     <a th:href="@{~/author/delete/{id} (id= ${author.id})}"><button>Delete</button></a>
                 </td>
                 <td>
-                    <a th:href="@{~/author/upadte/{id} (id=${author.id})}"><button>Edit</button></a>
+                    <a th:href="@{~/author/update/{id} (id=${author.id})}"><button>Edit</button></a>
                 </td>
             </tr>
 

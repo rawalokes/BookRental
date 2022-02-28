@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<!-- Coding by CodingLab | www.codinglabweb.com -->
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -19,7 +18,7 @@
         </div>
 
         <div class="create-action">
-            <a href="member_create.html"><button>Create</button></a>
+            <a th:href="@{~/member/create}"><button>Create</button></a>
         </div>
         <!-- <span>Breakpoints on 900px and 400px</span> -->
         <table id="customers">
@@ -27,48 +26,23 @@
                 <th>SN</th>
                 <th>Name</th>
                 <th>Mobile</th>
+                <th>Address</th>
                 <th>Action</th>
             </tr>
-            <tr>
-                <td>Demo</td>
-                <td>Demo</td>
-                <td>Demo</td>
+
+            <tr th:each=" member,index : ${memberlist}">
+                <td th:text="${index.count}"></td>
+                <td th:text="${member.name}"></td>
+                <td th:text="${member.mobileNumber}"></td>
+                <td th:text="${member.address}"></td>
+
                 <td>
-                    <a href=""><button>Delete</button></a>
+                    <a th:href="@{~/member/delete/{id}(id=${member.id})}"><button>Delete</button></a>
                     |
-                    <a href=""><button>Edit</button></a>
+                    <a th:href="@{~/member/update/{id}(id=${member.id})}"><button>Edit</button></a>
                 </td>
             </tr>
-            <tr>
-                <td>Demo</td>
-                <td>Demo</td>
-                <td>Demo</td>
-                <td>
-                    <a href=""><button>Delete</button></a>
-                    |
-                    <a href=""><button>Edit</button></a>
-                </td>
-            </tr>
-            <tr>
-                <td>Demo</td>
-                <td>Demo</td>
-                <td>Demo</td>
-                <td>
-                    <a href=""><button>Delete</button></a>
-                    |
-                    <a href=""><button>Edit</button></a>
-                </td>
-            </tr>
-            <tr>
-                <td>Demo</td>
-                <td>Demo</td>
-                <td>Demo</td>
-                <td>
-                    <a href=""><button>Delete</button></a>
-                    |
-                    <a href=""><button>Edit</button></a>
-                </td>
-            </tr>
+
         </table>
     </div>
 </main>

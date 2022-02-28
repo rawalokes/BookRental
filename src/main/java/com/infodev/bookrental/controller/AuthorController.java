@@ -46,7 +46,7 @@ public class AuthorController {
         return "redirect:/author/getall";
     }
 
-    @GetMapping("/upadte/{id}")
+    @GetMapping("/update/{id}")
     public String updateAuthorByI(@PathVariable Integer id, Model model) {
         AuthorDto authorDto = authorService.findById(id);
         model.addAttribute("authorDetails",authorDto);

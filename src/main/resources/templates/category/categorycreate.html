@@ -17,12 +17,13 @@
         </div>
 
         <div class="create-action">
-            <a th:href="@{~/category/setup}"><button>Create</button></a>
+            <a th:href="@{~/category/setup}"><button>Back</button></a>
         </div>
         <!-- <span>Breakpoints on 900px and 400px</span> -->
 
         <div class="create-action2">
-            <form th:action="@{~/category/setup}" th:object="${categories}" method="POST">
+<!--        <form th:action="@{/member/create}" th:object="${members}" method="post">-->
+            <form th:action="@{/category/create}" th:object="${categories}" th:method="post">
                 <ul class="form-style-1">
                     <input type="hidden" name="id" th:field="*{id}">
                     <li>

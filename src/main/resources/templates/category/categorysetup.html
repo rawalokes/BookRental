@@ -33,9 +33,9 @@
                 <td th:text="${category.discription}"></td>
 
                 <td>
-                    <a href=""><button>Delete</button></a>
+                    <a th:href="@{~/category/delete/{id} (id=${category.id})}"><button>Delete</button></a>
                     |
-                    <a href=""><button>Edit</button></a>
+                    <a th:href="@{~/category/update/{id} (id=${category.id})}"><button>Edit</button></a>
                 </td>
             </tr>
 

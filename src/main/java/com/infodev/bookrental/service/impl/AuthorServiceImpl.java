@@ -25,19 +25,21 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorDto create(AuthorDto authorDto) {
-        Author author = Author.builder()
-                .id(authorDto.getId())
-                .name(authorDto.getName())
-                .email(authorDto.getEmail())
-                .phone(authorDto.getNumber())
-                .build();
+//        Author author = Author.builder()
+//                .id(authorDto.getId())
+//                .name(authorDto.getName())
+//                .email(authorDto.getEmail())
+//                .phone(authorDto.getNumber())
+//                .build();
+        Author author= authorToDto(authorDto);
         author = authorRepo.save(author);
-        return AuthorDto.builder()
-                .id(author.getId())
-                .name(author.getName())
-                .email(author.getEmail())
-                .number(author.getPhone())
-                .build();
+//        return AuthorDto.builder()
+//                .id(author.getId())
+//                .name(author.getName())
+//                .email(author.getEmail())
+//                .number(author.getPhone())
+//                .build();
+        return authorToDto(author);
     }
 
     @Override
@@ -53,15 +55,10 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorDto findById(Integer id) {
-        Optional<Author> author=authorRepo.findById(id);
-        if (author.isPresent()){
-            Author reteriveAuthor=author.get();
-            return AuthorDto.builder()
-                    .id(reteriveAuthor.getId())
-                    .name(reteriveAuthor.getName())
-                    .email(reteriveAuthor.getEmail())
-                    .number(reteriveAuthor.getPhone())
-                    .build();
+        Optional<Author> author = authorRepo.findById(id);
+        if (author.isPresent()) {
+            Author reteriveAuthor = author.get();
+            return authorToDto(reteriveAuthor);
         }
 
         return null;
@@ -71,5 +68,23 @@ public class AuthorServiceImpl implements AuthorService {
     public void deleteById(Integer id) {
         authorRepo.deleteById(id);
 
+    }
+
+    public AuthorDto authorToDto(Author author) {
+        return AuthorDto.builder()
+                .id(author.getId())
+                .name(author.getName())
+                .email(author.getEmail())
+                .number(author.getPhone())
+                .build();
+    }
+
+    public Author authorToDto(AuthorDto authorDto) {
+        return Author.builder()
+                .id(authorDto.getId())
+                .name(authorDto.getName())
+                .email(authorDto.getEmail())
+                .phone(authorDto.getNumber())
+                .build();
     }
 }
