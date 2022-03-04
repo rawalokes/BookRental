@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name ="brs_book")
-
+@Builder
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "Book_SEQ_GEN")

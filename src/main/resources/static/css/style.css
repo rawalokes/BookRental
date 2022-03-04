@@ -456,3 +456,12 @@ input[type="reset"] {
     text-align: end;
 }
 
+ul > li > .selecto{
+    display: inline;
+    font-size: 16px;
+    font-weight: normal;
+}
+ul > li > .selecting{
+    background: none;
+    margin-right: 20px;
+}

@@ -27,13 +27,13 @@ public class AuthorController {
     }
 
     @GetMapping("/create")
-    public String addAuthor(Model model) {
+    public String getAddAuthor(Model model) {
         model.addAttribute("authorDetails", new AuthorDto());
         return "author/authorCreate";
     }
 
     @PostMapping("/create")
-    public String addAuthor(@ModelAttribute("authorDetails") AuthorDto authorDto) {
+    public String postAddAuthor(@ModelAttribute("authorDetails") AuthorDto authorDto) {
 
         authorService.create(authorDto);
         return "redirect:/author/getall";

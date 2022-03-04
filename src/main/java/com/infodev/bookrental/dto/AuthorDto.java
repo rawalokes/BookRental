@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@ToString
 public class AuthorDto {
     @NotNull
     @Min(value = 1,message = "id must be greater than zero")

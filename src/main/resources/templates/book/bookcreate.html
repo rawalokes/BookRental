@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <!-- Coding by CodingLab | www.codinglabweb.com -->
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <link rel="stylesheet" th:href="@{../css/style.css}">
 </head>
@@ -14,41 +14,56 @@
 <main>
     <div class="helper">
         <div class="title">
-            <h3>Rent Book Setup</h3>
+            <h3>Book Setup</h3>
         </div>
 
         <div class="create-action">
-            <a href="return_book.html"><button>Back</button></a>
+            <a >
+                <button>Back</button>
+            </a>
         </div>
         <!-- <span>Breakpoints on 900px and 400px</span> -->
 
         <div class="create-action2">
-            <form action="" method="POST">
-                <div class="custom-select">
-                    <select id="single-select">
-                        <option value="0">Code :</option>
-                        <option value="1">Demo</option>
-                    </select>
-                </div>
+            <form th:action="@{~/book/create}" th:object="${book}" th:method="post">
+                <input type="hidden" th:text="*{bookId}">
                 <ul class="form-style-1">
-                    <li class="text-span">
-                        <span>Date of Request</span>
-                        <span>Date of Return</span>
+                    <li>
+                        <label class="selecto">Category:</label>
+                        <select th:field="*{categoryId}" class="selecting" name="">
+                            <option th:each="category : ${categories}"
+                                    th:value="${category.id}"
+                                    th:text="${category.name}"
+                            ></option>
+
+                        </select>
+
+                        <label class="selecto">Author:</label>
+                        <select th:field="*{authorId}" class="selecting" name="">
+                            <option
+                            th:each="author : ${authors}"
+                            th:value="${author.id}"
+                            th:text="${author.name}"
+                            ></option>
+
+                        </select>
+                    <li>
+                        <input th:field="*{noOfPages}" type="text" name="name" class="field-divided" placeholder="No Of Pages"
+                               required/>
+                        <input th:field="*{rating}" type="text" name="email" class="field-divided" placeholder="Rating"
+                               required/>
+
                     </li>
                     <li>
-                        <input type="date" name="daterequest" class="field-divided" placeholder="Pages" required />
-                        <input type="date" name="datereturn" class="field-divided" placeholder="Rating" required />
+                        <input th:field="*{publishDate}" type="text" name="name" class="field-divided" placeholder="Publish Date" required/>
+                        <input th:field="*{name}" type="text" name="email" class="field-divided" placeholder="Name" required/>
+
                     </li>
-                    <li>
-                        <input type="text" name="name" class="field-divided" placeholder="Name" required />
-                        <input type="text" name="status" class="field-divided" placeholder="Status" required />
-                    </li>
-                    <li>
-                        <input type="text" name="rentstatus" class="field-divided" placeholder="Rent Status" required />
-                    </li>
+
+
                 </ul>
-                <input type="submit" value="Submit" />
-                <input type="reset" />
+                <input type="submit" value="Submit"/>
+                <input type="reset"/>
             </form>
         </div>
     </div>
