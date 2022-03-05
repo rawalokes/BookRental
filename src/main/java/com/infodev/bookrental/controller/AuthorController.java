@@ -1,5 +1,6 @@
 package com.infodev.bookrental.controller;
 
+import com.infodev.bookrental.components.SendEmailComponents;
 import com.infodev.bookrental.dto.AuthorDto;
 import com.infodev.bookrental.service.impl.AuthorServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/author")
 public class AuthorController {
     private final AuthorServiceImpl authorService;
+    private SendEmailComponents sendEmailComponents;
 
     public AuthorController(AuthorServiceImpl authorService) {
         this.authorService = authorService;
@@ -36,6 +38,7 @@ public class AuthorController {
     public String postAddAuthor(@ModelAttribute("authorDetails") AuthorDto authorDto) {
 
         authorService.create(authorDto);
+//        sendEmailComponents.sendEmail(authorDto.getEmail());
         return "redirect:/author/getall";
 
     }
@@ -48,6 +51,7 @@ public class AuthorController {
 
     @GetMapping("/update/{id}")
     public String updateAuthorByI(@PathVariable Integer id, Model model) {
+
         AuthorDto authorDto = authorService.findById(id);
         model.addAttribute("authorDetails",authorDto);
 

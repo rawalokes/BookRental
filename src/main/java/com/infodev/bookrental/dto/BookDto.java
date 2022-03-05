@@ -23,7 +23,7 @@ public class BookDto {
     private Integer noOfPages;
     private Double rating;
     private Date publishDate;
-    private String photoUrl;
+    private String pathUrl;
     private MultipartFile multipartFile;
     private Integer categoryId;
     private List<Integer> AuthorId;

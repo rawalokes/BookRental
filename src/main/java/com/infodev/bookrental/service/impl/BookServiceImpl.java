@@ -1,19 +1,19 @@
 package com.infodev.bookrental.service.impl;
 
 import com.infodev.bookrental.components.FileComponents;
+import com.infodev.bookrental.components.Fsc;
 import com.infodev.bookrental.dto.BookDto;
 import com.infodev.bookrental.dto.ResponseDto;
-import com.infodev.bookrental.model.Author;
 import com.infodev.bookrental.model.Book;
-import com.infodev.bookrental.model.Category;
 import com.infodev.bookrental.repo.AuthorRepo;
 import com.infodev.bookrental.repo.BookRepo;
 import com.infodev.bookrental.repo.CategoryRepo;
 import com.infodev.bookrental.service.BookService;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * @author rawalokes
@@ -25,23 +25,20 @@ public class BookServiceImpl implements BookService {
     private final BookRepo bookRepo;
     private final CategoryRepo categoryRepo;
     private final AuthorRepo authorRepo;
+    private final Fsc fileComponents;
 
-    public BookServiceImpl(BookRepo bookRepo, CategoryRepo categoryRepo, AuthorRepo authorRepo, FileComponents fileComponents) {
+    public BookServiceImpl(BookRepo bookRepo, CategoryRepo categoryRepo, AuthorRepo authorRepo, Fsc fileComponents) {
         this.bookRepo = bookRepo;
         this.categoryRepo = categoryRepo;
         this.authorRepo = authorRepo;
         this.fileComponents = fileComponents;
     }
 
-    private final FileComponents fileComponents;
-
-
-
     @Override
-    public BookDto create(BookDto bookDto) {
-    Book book=dtoToBook(bookDto);
-    bookRepo.save(book);
-    return bookToDto(book);
+    public BookDto create(BookDto bookDto) throws IOException {
+        Book book = dtoToBook(bookDto);
+        bookRepo.save(book);
+        return bookToDto(book);
     }
 
     @Override
@@ -57,10 +54,12 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteById(Integer integer) {
 
+
     }
 
-    private Book dtoToBook(BookDto bookDto) {
-        ResponseDto responseDto = fileComponents.filePath(bookDto.getMultipartFile());
+    private Book dtoToBook(BookDto bookDto) throws IOException {
+//        ResponseDto responseDto = fileComponents.filePath(bookDto.getMultipartFile());
+        ResponseDto responseDto=fileComponents.storeFile(bookDto.getMultipartFile());
         if (responseDto.isResponseStatus()) {
             return Book.builder()
                     .bookId(bookDto.getBookId())
@@ -70,7 +69,8 @@ public class BookServiceImpl implements BookService {
                     .rating(bookDto.getRating())
                     .publishDate(bookDto.getPublishDate())
                     .photoUrl(responseDto.getResponse())
-//                    .category(bookDto.getCategoryId())
+                    .category(categoryRepo.findById(bookDto.getCategoryId()).get())
+                    .authors(authorRepo.findAllById(bookDto.getAuthorId()))
                     .build();
         } else
             return null;
@@ -85,9 +85,10 @@ public class BookServiceImpl implements BookService {
                 .noOfPages(book.getNoOfPages())
                 .rating(book.getRating())
                 .publishDate(book.getPublishDate())
-                .photoUrl(book.getPhotoUrl())
-
-
+                .pathUrl(book.getPhotoUrl())
+                .categoryId(book.getCategory().getId())
+                .AuthorId(book.getAuthors().stream().map(
+                        x -> x.getId()).collect(Collectors.toList()))
                 .build();
 
     }

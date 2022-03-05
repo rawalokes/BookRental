@@ -6,10 +6,6 @@ import com.infodev.bookrental.model.Member;
 import com.infodev.bookrental.repo.MemberRepo;
 import com.infodev.bookrental.service.MemberService;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

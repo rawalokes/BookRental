@@ -1,5 +1,6 @@
 package com.infodev.bookrental.service.impl;
 
+import com.infodev.bookrental.components.SendEmailComponents;
 import com.infodev.bookrental.dto.AuthorDto;
 import com.infodev.bookrental.model.Author;
 import com.infodev.bookrental.repo.AuthorRepo;
@@ -19,38 +20,27 @@ import java.util.stream.Collectors;
 public class AuthorServiceImpl implements AuthorService {
     private AuthorRepo authorRepo;
 
-    public AuthorServiceImpl(AuthorRepo authorRepo) {
+    private final SendEmailComponents sendEmailComponents;
+
+    public AuthorServiceImpl(AuthorRepo authorRepo, SendEmailComponents sendEmailComponents) {
         this.authorRepo = authorRepo;
+        this.sendEmailComponents = sendEmailComponents;
     }
 
     @Override
     public AuthorDto create(AuthorDto authorDto) {
-//        Author author = Author.builder()
-//                .id(authorDto.getId())
-//                .name(authorDto.getName())
-//                .email(authorDto.getEmail())
-//                .phone(authorDto.getNumber())
-//                .build();
-        Author author= authorToDto(authorDto);
+
+        sendEmailComponents.sendEmail(authorDto.getEmail());
+        Author author = authorToDto(authorDto);
+
         author = authorRepo.save(author);
-//        return AuthorDto.builder()
-//                .id(author.getId())
-//                .name(author.getName())
-//                .email(author.getEmail())
-//                .number(author.getPhone())
-//                .build();
         return authorToDto(author);
     }
 
     @Override
     public List<AuthorDto> showAll() {
         List<Author> authors = authorRepo.findAll();
-        return authors.stream().map(reteriveAuthors -> AuthorDto.builder()
-                .id(reteriveAuthors.getId())
-                .name(reteriveAuthors.getName())
-                .email(reteriveAuthors.getEmail())
-                .number(reteriveAuthors.getPhone())
-                .build()).collect(Collectors.toList());
+        return authors.stream().map(reteriveAuthors -> AuthorDto.builder().id(reteriveAuthors.getId()).name(reteriveAuthors.getName()).email(reteriveAuthors.getEmail()).number(reteriveAuthors.getPhone()).build()).collect(Collectors.toList());
     }
 
     @Override
@@ -71,20 +61,10 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     public AuthorDto authorToDto(Author author) {
-        return AuthorDto.builder()
-                .id(author.getId())
-                .name(author.getName())
-                .email(author.getEmail())
-                .number(author.getPhone())
-                .build();
+        return AuthorDto.builder().id(author.getId()).name(author.getName()).email(author.getEmail()).number(author.getPhone()).build();
     }
 
     public Author authorToDto(AuthorDto authorDto) {
-        return Author.builder()
-                .id(authorDto.getId())
-                .name(authorDto.getName())
-                .email(authorDto.getEmail())
-                .phone(authorDto.getNumber())
-                .build();
+        return Author.builder().id(authorDto.getId()).name(authorDto.getName()).email(authorDto.getEmail()).phone(authorDto.getNumber()).build();
     }
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.IOException;
+
 /**
  * @author rawalokes
  * Date:2/26/22
@@ -39,7 +41,7 @@ public class BookController {
         return "/book/bookcreate";
     }
     @PostMapping("/create")
-    public String postCreateBook(@ModelAttribute("book") BookDto bookDto){
+    public String postCreateBook(@ModelAttribute("book") BookDto bookDto) throws IOException {
        bookService.create(bookDto);
         return "/book/bookcreate";
     }

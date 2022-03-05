@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Coding by CodingLab | www.codinglabweb.com -->
+
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <link rel="stylesheet" th:href="@{../css/style.css}">
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js}"></script>
+    <script th:src="@{https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js}"></script>
+    <link th:href="@{https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css}" rel="stylesheet"/>
 </head>
 <body>
 <div th:replace="fragments/sidenavbar :: navbar"></div>
@@ -18,14 +21,14 @@
         </div>
 
         <div class="create-action">
-            <a >
+            <a>
                 <button>Back</button>
             </a>
         </div>
         <!-- <span>Breakpoints on 900px and 400px</span> -->
 
         <div class="create-action2">
-            <form th:action="@{~/book/create}" th:object="${book}" th:method="post">
+            <form th:action="@{~/book/create}" th:object="${book}" th:method="post" enctype="multipart/form-data">
                 <input type="hidden" th:text="*{bookId}">
                 <ul class="form-style-1">
                     <li>
@@ -39,24 +42,33 @@
                         </select>
 
                         <label class="selecto">Author:</label>
-                        <select th:field="*{authorId}" class="selecting" name="">
+                        <select th:field="*{authorId}" multiple class="chosen-select selecting" name="test">
                             <option
-                            th:each="author : ${authors}"
-                            th:value="${author.id}"
-                            th:text="${author.name}"
+                                    th:each="author : ${authors}"
+                                    th:value="${author.id}"
+                                    th:text="${author.name}"
                             ></option>
 
                         </select>
                     <li>
-                        <input th:field="*{noOfPages}" type="text" name="name" class="field-divided" placeholder="No Of Pages"
-                               required/>
+                        <input th:field="*{noOfPages}" type="text" name="name" class="field-divided"
+                               placeholder="No Of Pages"
+                        />
                         <input th:field="*{rating}" type="text" name="email" class="field-divided" placeholder="Rating"
-                               required/>
+                        />
 
                     </li>
                     <li>
-                        <input th:field="*{publishDate}" type="text" name="name" class="field-divided" placeholder="Publish Date" required/>
-                        <input th:field="*{name}" type="text" name="email" class="field-divided" placeholder="Name" required/>
+                        <input th:field="*{stockCount}" type="text" name="name" class="field-divided"
+                               placeholder="Stock Count"/>
+                        <input th:field="*{isbn}" type="text" name="email" class="field-divided" placeholder="ISBN"/>
+
+                    </li>
+                    <li>
+                        <!--<input th:field="*{publishDate}" type="text" name="name" class="field-divided" placeholder="Publish Date" required/>-->
+                        <input th:field="*{name}" type="text" name="email" class="field-divided" placeholder="Name"/>
+                        <input th:field="*{multipartFile}" type="file" name="email" class="field-divided"
+                               placeholder="Name"/>
 
                     </li>
 
@@ -68,5 +80,11 @@
         </div>
     </div>
 </main>
+<script>
+    $(".chosen-select").chosen({
+        no_results_text: "Oops, nothing found!"
+    })
+</script>
+
 </body>
 </html>

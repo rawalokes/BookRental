@@ -14,8 +14,8 @@ import java.util.UUID;
  * Date:2/24/22
  * Time:1:27 PM
  */
-@Slf4j
 @Component
+@Slf4j
 public class FileComponents {
     public ResponseDto filePath(MultipartFile multipartFile) {
         String folderPath = System.getProperty("user.home") + File.separator + "BookRent";
