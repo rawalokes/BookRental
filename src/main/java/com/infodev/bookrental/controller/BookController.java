@@ -1,11 +1,9 @@
 package com.infodev.bookrental.controller;
 
-import com.infodev.bookrental.dto.AuthorDto;
 import com.infodev.bookrental.dto.BookDto;
-import com.infodev.bookrental.dto.CategoryDto;
-import com.infodev.bookrental.service.impl.AuthorServiceImpl;
-import com.infodev.bookrental.service.impl.BookServiceImpl;
-import com.infodev.bookrental.service.impl.CategoryServiceImpl;
+import com.infodev.bookrental.serviceImpl.AuthorServiceImpl;
+import com.infodev.bookrental.serviceImpl.BookServiceImpl;
+import com.infodev.bookrental.serviceImpl.CategoryServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

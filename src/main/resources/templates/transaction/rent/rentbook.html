@@ -28,17 +28,15 @@
                 <th>Action</th>
             </tr>
 
-            <tr th:each="rentedBook,index : ${rentList}">
+            <tr th:each="bookrented,index : ${rentedBook}">
                 <td th:text="${index.count}"></td>
-                <td th:each="member : ${memberList}"
-                 th:value="${member.id}"
-                th:text="${member.name}"></td>
-                <td th:text="${rentedBook.code}"></td>
+                <td th:text="${bookrented.bookName}"></td>
+                <td th:text="${bookrented.code}"></td>
                 <td>
 <!--                    <a th:href="@{~/member/delete/{id}(id=${member.id})}-->
-                    <a th:href="@{~/rent/delete/{id} (id=${rentedBook.book_id})}"><button>Delete</button></a>
+                    <a th:href="@{~/rent/delete/{id} (id=${bookrented.book_id})}"><button>Delete</button></a>
                     |
-                    <a th:href="@{~/rent/update/{id} (id=${rentedBook.book_id})}"><button>Edit</button></a>
+                    <a th:href="@{~/rent/update/{id} (id=${bookrented.book_id})}"><button>Edit</button></a>
                 </td>
             </tr>
         </table>

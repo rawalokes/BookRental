@@ -7,40 +7,47 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 /**
  * @author rawalokes
- * Date:2/24/22
- * Time:1:27 PM
+ * Date:3/5/22
+ * Time:11:44 AM
  */
-@Component
 @Slf4j
+@Component
 public class FileComponents {
-    public ResponseDto filePath(MultipartFile multipartFile) {
-        String folderPath = System.getProperty("user.home") + File.separator + "BookRent";
-        File folderFile = new File(folderPath);
-        if (!folderFile.exists()) {
-            folderFile.mkdirs();
-        } else {
-            log.info("already exits");
+
+    public ResponseDto storeFile(MultipartFile multipartFile) throws IOException, IOException {
+
+        String directoryPath = System.getProperty("user.home") + File.separator + "Desktop" + File.separator + "WICC";
+        File directoryFile = new File(directoryPath);
+        if (!directoryFile.exists()){
+            directoryFile.mkdirs();
         }
-        String fileExtension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-        if (fileExtension.equalsIgnoreCase("jpg") ||
-                fileExtension.equalsIgnoreCase("png")) {
+        else {
+            log.info("Folder already exists.");
+        }
+
+        String ext = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+        if (ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("png")
+                || ext.equalsIgnoreCase("jpeg")){
             UUID uuid = UUID.randomUUID();
-            String storedFilepath = folderPath + File.separator + uuid + "_" + multipartFile.getOriginalFilename();
-            File fileToStore = new File(storedFilepath);
+            String filePath = directoryPath + File.separator + uuid + "_" + multipartFile.getOriginalFilename();
+            File fileToStore = new File(filePath);
+            multipartFile.transferTo(fileToStore);
+
             return ResponseDto.builder()
                     .responseStatus(true)
-                    .response(storedFilepath)
-                    .build();
-
-        } else {
-            return ResponseDto.builder()
-                    .responseStatus(false)
-                    .response("Invalid Extension")
+                    .response(filePath)
                     .build();
         }
+        else {
+            return ResponseDto.builder()
+                    .responseStatus(false)
+                    .response("invalid extension type").build();
+        }
     }
+
 }

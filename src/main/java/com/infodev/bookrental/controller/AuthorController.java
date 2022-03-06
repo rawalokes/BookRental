@@ -2,10 +2,13 @@ package com.infodev.bookrental.controller;
 
 import com.infodev.bookrental.components.SendEmailComponents;
 import com.infodev.bookrental.dto.AuthorDto;
-import com.infodev.bookrental.service.impl.AuthorServiceImpl;
+import com.infodev.bookrental.serviceImpl.AuthorServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author rawalokes
@@ -35,10 +38,12 @@ public class AuthorController {
     }
 
     @PostMapping("/create")
-    public String postAddAuthor(@ModelAttribute("authorDetails") AuthorDto authorDto) {
+    public String postAddAuthor(@Valid @ModelAttribute("authorDetails") AuthorDto authorDto
+            , BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "/author/authorCreate";
 
         authorService.create(authorDto);
-//        sendEmailComponents.sendEmail(authorDto.getEmail());
         return "redirect:/author/getall";
 
     }
@@ -53,7 +58,7 @@ public class AuthorController {
     public String updateAuthorByI(@PathVariable Integer id, Model model) {
 
         AuthorDto authorDto = authorService.findById(id);
-        model.addAttribute("authorDetails",authorDto);
+        model.addAttribute("authorDetails", authorDto);
 
         return "/author/authorCreate";
     }

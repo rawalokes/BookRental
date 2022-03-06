@@ -1,7 +1,10 @@
 package com.infodev.bookrental.dto;
 
-import com.infodev.bookrental.model.Transaction;
+import com.infodev.bookrental.enums.RentType;
+import com.infodev.bookrental.model.Book;
 import lombok.*;
+
+import java.time.LocalDate;
 
 /**
  * @author rawalokes
@@ -11,14 +14,17 @@ import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class TransactionDto {
     private Integer transactionId;
     private Integer code;
-    private String fromDate;
-    private String toDate;
-    private String rentStatus;
+    private LocalDate fromDate;
+    private Integer noOfDays = 0;
+    private LocalDate toDate;
+    private RentType rentType;
     private Integer book_id;
     private Integer member_id;
-
+   private String bookName;
 }

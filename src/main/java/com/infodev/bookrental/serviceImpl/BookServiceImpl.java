@@ -1,10 +1,11 @@
-package com.infodev.bookrental.service.impl;
+package com.infodev.bookrental.serviceImpl;
 
 import com.infodev.bookrental.components.FileComponents;
-import com.infodev.bookrental.components.Fsc;
 import com.infodev.bookrental.dto.BookDto;
+import com.infodev.bookrental.dto.CategoryDto;
 import com.infodev.bookrental.dto.ResponseDto;
 import com.infodev.bookrental.model.Book;
+import com.infodev.bookrental.model.Category;
 import com.infodev.bookrental.repo.AuthorRepo;
 import com.infodev.bookrental.repo.BookRepo;
 import com.infodev.bookrental.repo.CategoryRepo;
@@ -25,9 +26,9 @@ public class BookServiceImpl implements BookService {
     private final BookRepo bookRepo;
     private final CategoryRepo categoryRepo;
     private final AuthorRepo authorRepo;
-    private final Fsc fileComponents;
+    private final FileComponents fileComponents;
 
-    public BookServiceImpl(BookRepo bookRepo, CategoryRepo categoryRepo, AuthorRepo authorRepo, Fsc fileComponents) {
+    public BookServiceImpl(BookRepo bookRepo, CategoryRepo categoryRepo, AuthorRepo authorRepo, FileComponents fileComponents) {
         this.bookRepo = bookRepo;
         this.categoryRepo = categoryRepo;
         this.authorRepo = authorRepo;
@@ -43,7 +44,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> showAll() {
-        return null;
+//        List<Category> categories = categoryRepo.findAll();
+//        return categories.stream().map(category -> CategoryDto.builder().id(category.getId()).name(category.getName())
+//                .discription(category.getDescription()).build()).collect(Collectors.toList());
+        List<Book> books= bookRepo.findAll();
+        return books.stream().map(book -> bookToDto(book)).collect(Collectors.toList());
     }
 
     @Override

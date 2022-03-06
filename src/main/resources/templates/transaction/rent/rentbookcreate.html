@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="stylesheet" th:href="@{../../css/style.css}">
+</head>
+<body>
+<div th:replace="fragments/sidenavbar :: navbar"></div>
+
+<main>
+    <div class="helper">
+        <div class="title">
+            <h3>Rent Book Setup</h3>
+        </div>
+
+        <div class="create-action">
+            <a th:href="@{~/rent/setup}">
+                <button>Back</button>
+            </a>
+        </div>
+        <!-- <span>Breakpoints on 900px and 400px</span> -->
+
+        <div class="create-action2">
+            <form th:action="@{~/rent/create}" th:object="${rentBook}" th:method="post">
+
+
+                <ul class="form-style-1">
+                    <ul class="form-style-1">
+                        <li>
+                            <label class="selecto">Book:</label>
+                            <select th:field="*{book_id}" class="selecting" name="">
+                                <option th:each="book : ${books}"
+                                        th:value="${book.bookId}"
+                                        th:text="${book.name}"
+                                ></option>
+
+                            </select>
+
+                            <label class="selecto">Author:</label>
+                            <select th:field="*{member_id}" class=" selecting" name="test">
+                                <!--/*@thymesVar id="id" type=""*/-->
+                                <option
+                                        th:each="member : ${members}"
+                                        th:value="${member.id}"
+                                        th:text="${member.name}"
+                                ></option>
+
+                            </select>
+                        <li>
+                            <input th:field="*{code}" type="number" name="pages" class="field-divided" placeholder="code"
+                                   required/>
+                            <input th:field="*{noOfDays}" type="number" name="rating" class="field-divided"
+                                   placeholder="Rating" required/>
+                        </li>
+                       
+                    </ul>
+                    <input type="submit" value="Submit"/>
+                    <input type="reset"/>
+                </ul>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

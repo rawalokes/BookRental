@@ -1,7 +1,7 @@
 package com.infodev.bookrental.controller;
 
 import com.infodev.bookrental.dto.MemberDto;
-import com.infodev.bookrental.service.impl.MemberServiceImpl;
+import com.infodev.bookrental.serviceImpl.MemberServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

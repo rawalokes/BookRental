@@ -1,4 +1,4 @@
-package com.infodev.bookrental.service.impl;
+package com.infodev.bookrental.serviceImpl;
 
 import com.infodev.bookrental.dto.CategoryDto;
 import com.infodev.bookrental.model.Category;
@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto create(CategoryDto categoryDto) {
         Category category = categoryToDto(categoryDto);
-        System.out.println("3453######################################334323");
+
         category = categoryRepo.save(category);
         return toCategoryDto(category);
     }

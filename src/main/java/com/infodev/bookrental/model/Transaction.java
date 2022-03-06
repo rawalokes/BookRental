@@ -1,8 +1,11 @@
 package com.infodev.bookrental.model;
 
+import com.infodev.bookrental.enums.RentType;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * @author rawalokes
@@ -22,8 +25,10 @@ public class Transaction {
     @SequenceGenerator(name = "Transaction_SEQ_GEN",sequenceName = "Transaction_SEQ",allocationSize = 1)
     private Integer transactionId;
     private Integer code;
-    private String fromDate;
-    private String toDate;
+    private LocalDate fromDate;
+    private LocalDate toDate;
+    @Enumerated(value = EnumType.STRING)
+    private RentType rentType;
     @ManyToOne
     private Member member;
     @ManyToOne

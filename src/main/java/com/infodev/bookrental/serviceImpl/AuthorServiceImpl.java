@@ -1,4 +1,4 @@
-package com.infodev.bookrental.service.impl;
+package com.infodev.bookrental.serviceImpl;
 
 import com.infodev.bookrental.components.SendEmailComponents;
 import com.infodev.bookrental.dto.AuthorDto;
