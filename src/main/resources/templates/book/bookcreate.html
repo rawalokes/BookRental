@@ -51,24 +51,35 @@
 
                         </select>
                     <li>
-                        <input th:field="*{noOfPages}" type="text" name="name" class="field-divided"
+                        <input th:field="*{noOfPages}" type="text"
+                               name="name"
+                               class="field-divided"
                                placeholder="No Of Pages"
                         />
+                    <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{noOfPages}"></p>
                         <input th:field="*{rating}" type="text" name="email" class="field-divided" placeholder="Rating"
                         />
+                    <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{rating}"></p>
 
-                    </li>
+
+                </li>
                     <li>
                         <input th:field="*{stockCount}" type="text" name="name" class="field-divided"
                                placeholder="Stock Count"/>
+                        <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{stockCount}"></p>
                         <input th:field="*{isbn}" type="text" name="email" class="field-divided" placeholder="ISBN"/>
+                        <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{isbn}"></p>
 
                     </li>
                     <li>
                         <!--<input th:field="*{publishDate}" type="text" name="name" class="field-divided" placeholder="Publish Date" required/>-->
                         <input th:field="*{name}" type="text" name="email" class="field-divided" placeholder="Name"/>
+                        <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                        <input th:field="*{publishDate}" type="date" name="email" class="field-divided" placeholder="Publish Date"/>
+                        <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{publishDate}"></p>
                         <input th:field="*{multipartFile}" type="file" name="email" class="field-divided"
                                placeholder="Name"/>
+                        <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{multipartFile}"></p>
 
                     </li>
 

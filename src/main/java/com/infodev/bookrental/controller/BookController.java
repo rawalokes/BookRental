@@ -6,11 +6,13 @@ import com.infodev.bookrental.serviceImpl.BookServiceImpl;
 import com.infodev.bookrental.serviceImpl.CategoryServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 /**
@@ -30,6 +32,11 @@ public class BookController {
         this.authorService = authorService;
         this.categoryService = categoryService;
     }
+    @GetMapping("/setup")
+    public String getAllBook(Model model){
+        model.addAttribute("albooks",bookService.showAll());
+        return "book/booksetup";
+    }
 
     @GetMapping("/create")
     public String getCreateBook(Model model){
@@ -39,8 +46,12 @@ public class BookController {
         return "/book/bookcreate";
     }
     @PostMapping("/create")
-    public String postCreateBook(@ModelAttribute("book") BookDto bookDto) throws IOException {
+    public String postCreateBook(@Valid @ModelAttribute("book") BookDto bookDto,
+                                 BindingResult bindingResult) throws IOException {
+        if (bindingResult.hasErrors())
+            return "/book/bookcreate";
+
        bookService.create(bookDto);
-        return "/book/bookcreate";
+        return "redirect:/book/setup";
     }
 }
