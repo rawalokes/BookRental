@@ -19,16 +19,15 @@ import javax.validation.constraints.Size;
 @Builder
 public class MemberDto {
     private Integer id;
-    @Size(max = 40,min = 3)
-    @NotEmpty
+    @Size(max = 40,min = 3,message = "invalid name")
     private String name;
 
-    @Email
+    @Email(message = "invalid email")
     private String email;
 
-    @NumberFormat
+    @Size(max = 10,min = 10,message = "invalid no")
     private String mobileNumber;
 
-    @NotEmpty
+    @NotEmpty(message = "invalid message")
     private String address;
 }

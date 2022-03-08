@@ -16,20 +16,17 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 @ToString
 public class AuthorDto {
-    @NotNull
-    @Min(value = 1,message = "id must be greater than zero")
+
     private Integer id;
 
-    @NotEmpty()
-    @Size(min = 3 ,message = "invalid name")
+    @NotEmpty(message = "name cannot be empty")
+    @Size(min = 3, message = "invalid name")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "email cannot be empty")
     @Email(message = "invalid email address")
     private String email;
-
-    @NotNull
-    @Size(max = 10,message = "invalid mobile no")
-    @Size(min = 10,message = "invalid mobile no")
-    private String number;
+    @NotEmpty(message = "mobile cannot be empty")
+    @Size(min = 10,max = 10, message = "invalid mobile no")
+    private String mNumber;
 }

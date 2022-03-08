@@ -22,26 +22,26 @@ import java.util.List;
 @Builder
 public class BookDto {
     private Integer bookId;
-    @NotEmpty
+    @NotEmpty(message = "name cannot be empty")
     private String name;
 
-    @NotNull
-    private Integer isbn;
+    @NotEmpty(message = "isbn cannot be empty")
+    private String isbn;
 
-    @NotNull
-    @Min(value =1)
+    @NotEmpty(message = "stock cannot be empty")
+    @Min(value =1 ,message = "invalid stock")
     private Integer stockCount;
 
-    @NotNull
-    @Min(value = 10)
+    @NotEmpty(message = "pages cannot be empty")
+    @Min(value = 10 ,message = "invalid no of pages")
     private Integer noOfPages;
 
-    @NotNull
-    @Min(value = 0)
+    @NotNull(message = "rating cannot be empty ")
+    @Min(value = 0,message = "min rating is 0")
+    @Max(value = 5 ,message = "max rating is 5")
     private Double rating;
 
     @NotNull
-    @Future
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     @Temporal(TemporalType.DATE)
     private Date publishDate;

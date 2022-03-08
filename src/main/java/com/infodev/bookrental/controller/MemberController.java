@@ -4,7 +4,10 @@ import com.infodev.bookrental.dto.MemberDto;
 import com.infodev.bookrental.serviceImpl.MemberServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author rawalokes
@@ -35,7 +38,10 @@ public class MemberController {
     }
 
     @PostMapping("/create")
-    public String postAddMember(@ModelAttribute("members") MemberDto memberDto) {
+    public String postAddMember(@Valid @ModelAttribute("members") MemberDto memberDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "/member/membercreate";
+
         memberService.create(memberDto);
         return "redirect:/member/setup";
     }

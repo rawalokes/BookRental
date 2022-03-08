@@ -1,5 +1,6 @@
 package com.infodev.bookrental.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,7 +30,7 @@ public class Book {
     private String name;
 
     @Column(name = "isbn",length = 20)
-    private Integer isbn;
+    private String isbn;
 
     @Column(name = "book_stock")
     private Integer stockCount;
@@ -52,5 +53,9 @@ public class Book {
     @ManyToMany (fetch = FetchType.LAZY)
     @JoinTable(name = "brs_book_author")
     private List<Author> authors;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    List<Transaction> bookTransactions;
 
 }

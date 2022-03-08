@@ -2,7 +2,6 @@ package com.infodev.bookrental.serviceImpl;
 
 import com.infodev.bookrental.components.FileComponents;
 import com.infodev.bookrental.dto.BookDto;
-import com.infodev.bookrental.dto.CategoryDto;
 import com.infodev.bookrental.dto.ResponseDto;
 import com.infodev.bookrental.model.Book;
 import com.infodev.bookrental.model.Category;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -53,6 +53,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto findById(Integer integer) {
+        Optional<Book> book = bookRepo .findById(integer);
+        if (book.isPresent()) {
+            Book retBook = book.get();
+            return bookToDto(retBook);
+        }
+
         return null;
     }
 

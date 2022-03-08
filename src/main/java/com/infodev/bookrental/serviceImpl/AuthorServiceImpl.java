@@ -29,18 +29,17 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorDto create(AuthorDto authorDto) {
-
-        sendEmailComponents.sendEmail(authorDto.getEmail());
         Author author = authorToDto(authorDto);
-
         author = authorRepo.save(author);
+        sendEmailComponents.sendEmail(authorDto.getEmail());
         return authorToDto(author);
     }
 
     @Override
     public List<AuthorDto> showAll() {
         List<Author> authors = authorRepo.findAll();
-        return authors.stream().map(reteriveAuthors -> AuthorDto.builder().id(reteriveAuthors.getId()).name(reteriveAuthors.getName()).email(reteriveAuthors.getEmail()).number(reteriveAuthors.getPhone()).build()).collect(Collectors.toList());
+        return authors.stream().map(reteriveAuthors -> AuthorDto.builder().id(reteriveAuthors.getId()).name(reteriveAuthors.getName())
+                .email(reteriveAuthors.getEmail()).mNumber(reteriveAuthors.getPhone()).build()).collect(Collectors.toList());
     }
 
     @Override
@@ -61,10 +60,16 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     public AuthorDto authorToDto(Author author) {
-        return AuthorDto.builder().id(author.getId()).name(author.getName()).email(author.getEmail()).number(author.getPhone()).build();
+        return AuthorDto.builder().id(author.getId())
+                .name(author.getName())
+                .email(author.getEmail())
+                .mNumber(author.getPhone()).build();
     }
 
     public Author authorToDto(AuthorDto authorDto) {
-        return Author.builder().id(authorDto.getId()).name(authorDto.getName()).email(authorDto.getEmail()).phone(authorDto.getNumber()).build();
+        return Author.builder().id(authorDto.getId())
+                .name(authorDto.getName())
+                .email(authorDto.getEmail())
+                .phone(authorDto.getMNumber()).build();
     }
 }

@@ -38,11 +38,11 @@ public class AuthorController {
     }
 
     @PostMapping("/create")
-    public String postAddAuthor(@Valid @ModelAttribute("authorDetails") AuthorDto authorDto
+    public String postAddAuthor( @Valid  @ModelAttribute("authorDetails")AuthorDto authorDto
             , BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "/author/authorCreate";
-
+        if (bindingResult.hasErrors()) {
+           return "author/authorCreate";
+        }
         authorService.create(authorDto);
         return "redirect:/author/getall";
 
@@ -56,7 +56,6 @@ public class AuthorController {
 
     @GetMapping("/update/{id}")
     public String updateAuthorByI(@PathVariable Integer id, Model model) {
-
         AuthorDto authorDto = authorService.findById(id);
         model.addAttribute("authorDetails", authorDto);
 

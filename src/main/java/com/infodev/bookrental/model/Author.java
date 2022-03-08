@@ -1,8 +1,10 @@
 package com.infodev.bookrental.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author rawalokes
@@ -27,10 +29,16 @@ public class Author {
     @Column(name = "author_name",length = 30)
     private String name;
 
-    @Column(name ="author_email",length = 100 )
+    @Column(name ="author_email",length = 200 )
     private String email;
 
     @Column(name ="author_phone", length = 10)
     private String phone;
+
+    @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Book> books;
+
+
 
 }

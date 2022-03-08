@@ -21,14 +21,13 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepo categoryRepo;
 
     public CategoryServiceImpl(CategoryRepo categoryRepo) {
-
         this.categoryRepo = categoryRepo;
     }
 
 
     @Override
     public CategoryDto create(CategoryDto categoryDto) {
-        Category category = categoryToDto(categoryDto);
+        Category category = toCategory(categoryDto);
 
         category = categoryRepo.save(category);
         return toCategoryDto(category);
@@ -37,7 +36,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> showAll() {
         List<Category> categories = categoryRepo.findAll();
-        return categories.stream().map(category -> CategoryDto.builder().id(category.getId()).name(category.getName()).discription(category.getDescription()).build()).collect(Collectors.toList());
+        return categories.stream().map(category -> CategoryDto.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .description(category.getDescription())
+                .build()).collect(Collectors.toList());
     }
 
     @Override
@@ -53,7 +56,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteById(Integer id) {
         categoryRepo.deleteById(id);
-
     }
 
 
@@ -67,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryDto.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .discription(category.getDescription())
+                .description(category.getDescription())
                 .build();
 
     }
@@ -78,11 +80,11 @@ public class CategoryServiceImpl implements CategoryService {
      * @param categoryDto to be maped into cagegory
      * @return category
      */
-    private Category categoryToDto(CategoryDto categoryDto) {
+    private Category toCategory(CategoryDto categoryDto) {
         return Category.builder()
                 .id(categoryDto.getId())
                 .name(categoryDto.getName())
-                .description(categoryDto.getDiscription())
+                .description(categoryDto.getDescription())
                 .build();
     }
 }

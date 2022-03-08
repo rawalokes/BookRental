@@ -30,7 +30,7 @@
             <tr th:each="category,index : ${categoryList}">
                 <td th:text="${index.count}"></td>
                 <td th:text="${category.name}"></td>
-                <td th:text="${category.discription}"></td>
+                <td th:text="${category.getDescription}"></td>
 
                 <td>
                     <a th:href="@{~/category/delete/{id} (id=${category.id})}"><button>Delete</button></a>

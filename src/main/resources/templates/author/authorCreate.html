@@ -483,7 +483,7 @@
                 <button>Back</button>
             </a>
         </div>
-        <!-- <span>Breakpoints on 900px and 400px</span> -->
+
 
         <div class="create-action2">
             <form th:action="@{/author/create}" th:object="${authorDetails}" method="post">
@@ -491,22 +491,31 @@
                 <ul class="form-style-1">
                     <input type="hidden" name="id" th:field="*{id}">
                     <li>
-                        <input th:field="*{name}" type="text" name="name" class="field-divided" placeholder="Name"/>
-                        <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
-                        <input th:field="*{email}" type="email" name="email" class="field-divided" placeholder="Email"/>
-                        <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{email}"></p>
+                        <input th:field="*{name}"
+                               type="text" name="name" class="field-divided" placeholder="Name"/>
+
+
+                        <input th:field="*{email}"
+                               type="email" name="email" class="field-divided" placeholder="Email"/>
+
                     </li>
                     <li>
-                        <input th:field="*{number}" type="text" name="mobile" class="field-long"
+                        <input th:field="*{MNumber}"
+                               type="text" name="mobile" class="field-long"
                                placeholder="Mobile Number"/>
-                        <p class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{number}"></p>
+<!--                        <p th:if="${#fields.hasErrors('MNumber')}" th:errorclass="error" th:errors="*{MNumber}" />-->
                     </li>
                 </ul>
                 <input type="submit" value="Submit"/>
                 <input type="reset"/>
-
+                <div class="errors" th:if="${#fields.hasAnyErrors()}">
+                    <ul>
+                        <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+                    </ul>
+                </div>
 
             </form>
+
             <div>
 
             </div>

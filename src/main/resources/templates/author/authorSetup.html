@@ -29,13 +29,13 @@
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Action</th>
-<!--                <th>Delete</th>-->
+                <th>Delete</th>
             </tr>
             <tr th:each="author,index : ${authorList}">
                 <td th:text="${index.count}"></td>
                 <td th:text="${author.name}"></td>
                 <td th:text="${author.email}"></td>
-                <td th:text="${author.number}"></td>
+                <td th:text="${author.MNumber}"></td>
 
                 <td>
                     <a th:href="@{~/author/delete/{id} (id= ${author.id})}"><button>Delete</button></a>

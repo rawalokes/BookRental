@@ -2,6 +2,9 @@ package com.infodev.bookrental.dto;
 
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 
 /**
  * @author rawalokes
@@ -15,7 +18,11 @@ import lombok.*;
 @Builder
 public class CategoryDto {
     private Integer id;
+    @NotEmpty
+    @Size(min = 3,max = 100,message = "invalid name")
     private String name;
-    private String discription;
+    @NotEmpty(message = "invalid description ")
+    @Size(min = 3,max = 100,message = "invalid description")
+    private String description;
 
 }

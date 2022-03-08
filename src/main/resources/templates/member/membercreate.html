@@ -523,20 +523,31 @@
                 <input type="hidden" name="id" th:field="*{id}">
                 <ul class="form-style-1">
                     <li>
-                        <input th:field="*{name}" type="text" name="name" class="field-divided" placeholder="Name"/>
-                        <input th:field="*{email}" type="email" name="email" class="field-divided" placeholder="Email"/>
+                        <input th:field="*{name}" type="text"
+                               name="name" class="field-divided" placeholder="Name"/>
+
+                        <input th:field="*{email}" type="text"
+                               name="email" class="field-divided" placeholder="Email"/>
+
                         <input th:field="*{address}" type="text" name="address" class="field-divided"
                                placeholder="Address"/>
+
                         <input th:field="*{mobileNumber} " type="text" name="mobile" class="field-divided"
-                               placeholder="Mobile Number" required/>
+                               placeholder="Mobile Number"/>
+
+
                     </li>
 
-                    <!--                    <li>-->
-                    <!--                        <input th:field="*{mobileNumber} "type="number" name="mobile" class="field-long" placeholder="Mobile Number" required />-->
-                    <!--                    </li>-->
+
                 </ul>
                 <input type="submit" value="Submit"/>
                 <input type="reset"/>
+                <div class="errors" th:if="${#fields.hasAnyErrors()}">
+                    <ul>
+                        <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+                    </ul>
+                </div>
+
             </form>
         </div>
     </div>

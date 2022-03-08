@@ -1,8 +1,10 @@
 package com.infodev.bookrental.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @catrgory rawalokes
@@ -29,6 +31,9 @@ public class Category {
     @Column(name = "description",length = 2000)
     private String description;
 
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Book> books;
 
 }
 
