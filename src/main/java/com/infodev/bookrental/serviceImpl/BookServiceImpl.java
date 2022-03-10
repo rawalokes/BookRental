@@ -44,9 +44,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> showAll() {
-//        List<Category> categories = categoryRepo.findAll();
-//        return categories.stream().map(category -> CategoryDto.builder().id(category.getId()).name(category.getName())
-//                .discription(category.getDescription()).build()).collect(Collectors.toList());
         List<Book> books= bookRepo.findAll();
         return books.stream().map(book -> bookToDto(book)).collect(Collectors.toList());
     }
@@ -54,6 +51,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto findById(Integer integer) {
         Optional<Book> book = bookRepo .findById(integer);
+
         if (book.isPresent()) {
             Book retBook = book.get();
             return bookToDto(retBook);
@@ -78,6 +76,7 @@ public class BookServiceImpl implements BookService {
                     .isbn(bookDto.getIsbn())
                     .noOfPages(bookDto.getNoOfPages())
                     .rating(bookDto.getRating())
+                    .stockCount(bookDto.getStockCount())
                     .publishDate(bookDto.getPublishDate())
                     .photoUrl(responseDto.getResponse())
                     .category(categoryRepo.findById(bookDto.getCategoryId()).get())
@@ -93,6 +92,7 @@ public class BookServiceImpl implements BookService {
                 .bookId(book.getBookId())
                 .name(book.getName())
                 .isbn(book.getIsbn())
+                .stockCount(book.getStockCount())
                 .noOfPages(book.getNoOfPages())
                 .rating(book.getRating())
                 .publishDate(book.getPublishDate())

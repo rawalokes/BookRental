@@ -24,7 +24,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "Transaction_SEQ_GEN")
     @SequenceGenerator(name = "Transaction_SEQ_GEN",sequenceName = "Transaction_SEQ",allocationSize = 1)
     private Integer transactionId;
-    private Integer code;
+    private String code;
     private LocalDate fromDate;
     private LocalDate toDate;
     @Enumerated(value = EnumType.STRING)

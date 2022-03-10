@@ -22,7 +22,7 @@ public class CategoryDto {
     @Size(min = 3,max = 100,message = "invalid name")
     private String name;
     @NotEmpty(message = "invalid description ")
-    @Size(min = 3,max = 100,message = "invalid description")
+    @Size(max= 100,min=3,message = "invalid description")
     private String description;
 
 }

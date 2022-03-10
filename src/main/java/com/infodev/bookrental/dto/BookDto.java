@@ -28,11 +28,11 @@ public class BookDto {
     @NotEmpty(message = "isbn cannot be empty")
     private String isbn;
 
-    @NotEmpty(message = "stock cannot be empty")
+    @NotNull(message = "stock cannot be empty")
     @Min(value =1 ,message = "invalid stock")
     private Integer stockCount;
 
-    @NotEmpty(message = "pages cannot be empty")
+    @NotNull(message = "pages cannot be empty")
     @Min(value = 10 ,message = "invalid no of pages")
     private Integer noOfPages;
 
@@ -44,7 +44,7 @@ public class BookDto {
     @NotNull
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     @Temporal(TemporalType.DATE)
-    private Date publishDate;
+    private String publishDate;
 
     private String pathUrl;
 

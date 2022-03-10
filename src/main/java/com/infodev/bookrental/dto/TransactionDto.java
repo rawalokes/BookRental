@@ -4,6 +4,8 @@ import com.infodev.bookrental.enums.RentType;
 import com.infodev.bookrental.model.Book;
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
@@ -19,12 +21,14 @@ import java.time.LocalDate;
 @Builder
 public class TransactionDto {
     private Integer transactionId;
-    private Integer code;
+    @NotEmpty(message = "code cannot be empty")
+    private String code;
     private LocalDate fromDate;
+    @NotNull(message = "no of days cannot be empty")
     private Integer noOfDays = 0;
     private LocalDate toDate;
     private RentType rentType;
     private Integer book_id;
     private Integer member_id;
-   private String bookName;
+   private Book book;
 }

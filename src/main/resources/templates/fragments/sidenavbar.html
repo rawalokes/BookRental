@@ -13,7 +13,8 @@
         <nav class="menu">
             <div class="smartphone-menu-trigger"></div>
             <header>
-                <h3>Book Rental System</h3>
+
+                <h3> <a th:href="@{~/}"> Book Rental System</a></h3>
             </header>
             <ul>
                 <li>
@@ -30,8 +31,8 @@
                     <label for="item-2">Transcation</label>
                     <input type="checkbox" id="item-2" />
                     <ul>
-                        <li><a href="rent_book.html">Rent A Book</a></li>
-                        <li><a href="return_book.html">Return A Book</a></li>
+                        <li><a th:href="@{~/rent/setup}">Rent A Book</a></li>
+                        <li><a th:href="@{~/return/setup}">Return A Book</a></li>
                     </ul>
                 </li>
             </ul>

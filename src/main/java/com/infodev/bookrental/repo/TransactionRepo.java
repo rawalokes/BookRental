@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface TransactionRepo extends JpaRepository<Transaction,Integer> {
     List<Transaction> findAllByRentType(RentType rentType);
+    Transaction findTransactionByCode(String code );
 }

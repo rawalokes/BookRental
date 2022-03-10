@@ -10,10 +10,7 @@ import com.infodev.bookrental.serviceImpl.MemberServiceImpl;
 import com.infodev.bookrental.serviceImpl.TransactionServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,7 +52,17 @@ public class RentBookController {
 
     @PostMapping("/create")
     public String postCreateRent(@ModelAttribute ("rentBook") TransactionDto transactionDto) throws IOException {
+//        TransactionDto trs= transactionService.findById(transactionDto.getTransactionId());
+//        trs.setRentType(RentType.RENT);
         transactionService.create(transactionDto);
         return "redirect:/rent/setup";
+    }
+    @GetMapping("/update/{id}")
+    public String updateBookByID(@PathVariable Integer id, Model model) {
+        TransactionDto transactionDto=transactionService.findById(id);
+        model.addAttribute("rentBook",transactionDto);
+        model.addAttribute("members",memberService.showAll());
+        model.addAttribute("books",bookService.showAll());
+        return "/transaction/rent/rentbookcreate";
     }
 }

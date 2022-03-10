@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<style>
+    *{
+        color: black;
+    }
+    .container{
+        margin-left: 30px;
+    }
+</style>
+<body>
+<div>
+
+</div>
+<div class="container">
+    <h1>View Book</h1>
+    <u><h2>Id:</h2></u>
+    <h2 th:text="${returnData.transactionId}" th:value="${returnData.transactionId}"></h2>
+    <u><h2>Book's Name:</h2></u>
+    <h2 th:text="${returnData.book.name}" th:value="${returnData.book.name}"></h2>
+    <u><h2>Book's Code:</h2></u>
+    <h2 th:text="${returnData.code}" th:value="${returnData.code}"></h2>
+    <u><h2>From Date:</h2></u>
+    <h2  th:text="${returnData.fromDate}"></h2>
+    <u><h2>To Date:</h2></u>
+    <h2 th:text="${returnData.toDate}"></h2>
+
+    <h2>  <a th:href="@{~/return/save/{id} (id=${returnData.transactionId})}" ><button>RETURN</button></a></h2>
+
+</div>
+
+
+</body>
+</html>

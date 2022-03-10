@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<!-- Coding by CodingLab | www.codinglabweb.com -->
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <link rel="stylesheet" th:href="@{../../css/style.css}">
 </head>
@@ -18,68 +17,30 @@
         </div>
 
         <div class="create-action">
-            <a href="return_book.html"><button>Back</button></a>
+            <a href="return_book.html">
+                <button>Back</button>
+            </a>
         </div>
         <!-- <span>Breakpoints on 900px and 400px</span> -->
-
-        <div class="create-action2">
-            <form action="" method="POST">
-                <div class="custom-select">
-                    <select id="single-select">
-                        <option value="0">Code :</option>
-                        <option value="1">Demo</option>
-                    </select>
-                </div>
-                <ul class="form-style-1">
-                    <li class="text-span">
-                        <span>Date of Request</span>
-                        <span>Date of Return</span>
-                    </li>
-                    <li>
-                        <input type="date" name="daterequest" class="field-divided" placeholder="Pages" required />
-                        <input type="date" name="datereturn" class="field-divided" placeholder="Rating" required />
-                    </li>
-                    <li>
-                        <input type="text" name="name" class="field-divided" placeholder="Name" required />
-                        <input type="text" name="status" class="field-divided" placeholder="Status" required />
-                    </li>
-                    <li>
-                        <input type="text" name="rentstatus" class="field-divided" placeholder="Rent Status" required />
-                    </li>
-                </ul>
-                <input type="submit" value="Submit" />
-                <input type="reset" />
-            </form>
-        </div>
+       <div class="create-action2">
+           <label class="text-dark">Select Code: </label>
+           <select name="returnId" id="valueselect"  class="form-select code">
+               <option value=""  disabled selected hidden>Choose...</option>
+               <option
+                       th:each="return : ${transactions}"
+                       th:value="${return.transactionId}"
+                       th:text="${return.code}">
+               </option>
+           </select>
+       </div>
     </div>
 </main>
 <script>
-    $('.master-btn').click(function(){
-        $('.master-show').toggleClass("show-sub-menu");
-        $('nav ul .first').toggleClass("rotate");
 
-        if($('.master-show').hasClass("show-sub-menu")){
-            $('.master-btn').addClass("active");
-            $('.transaction-btn').removeClass("active");
-        }
-        else{
-            $('.master-btn').removeClass("active");
-        }
-    });
+    document.getElementsByClassName("code")[0].addEventListener("click", function(event) {
 
-    //displays sub menu items of transaction when it is clicked
-    //and hides the sub-menu items when clicked second time
-    $('.transaction-btn').click(function(){
-        $('.transaction-show').toggleClass("show-sub-menu");
-        $('nav ul .second').toggleClass("rotate");
-
-        if($('.transaction-show').hasClass("show-sub-menu")){
-            $('.transaction-btn').addClass("active");
-            $('.master-btn').removeClass("active");
-        }
-        else{
-            $('.transaction-btn').removeClass("active");
-        }
+        var value = document.getElementById("valueselect").value;
+        location.href = "/return/code/" + value;
     });
 </script>
 </body>

@@ -526,19 +526,23 @@
                                class="field-divided"
                                placeholder="No Of Pages"
                         />
-                        <input th:field="*{rating}" type="text" name="email" class="field-divided" placeholder="Rating"
+                        <input th:field="*{rating}"
+                               type="text" name="email"
+                               class="field-divided" placeholder="Rating"
                         />
 
 
                 </li>
                     <li>
-                        <input th:field="*{stockCount}" type="text" name="name" class="field-divided"
+                        <input th:field="*{stockCount}"
+                               type="text" name="name" class="field-divided"
                                placeholder="Stock Count"/>
-                        <input th:field="*{isbn}" type="text" name="email" class="field-divided" placeholder="ISBN"/>
+                        <input th:field="*{isbn}"
+                               type="text" name="email"
+                               class="field-divided" placeholder="ISBN"/>
 
                     </li>
                     <li>
-                        <!--<input th:field="*{publishDate}" type="text" name="name" class="field-divided" placeholder="Publish Date" required/>-->
                         <input th:field="*{name}" type="text" name="email" class="field-divided" placeholder="Name"/>
                         <input th:field="*{publishDate}" type="date" name="email" class="field-divided" placeholder="Publish Date"/>
                         <input th:field="*{multipartFile}" type="file" name="email" class="field-divided"
@@ -547,13 +551,12 @@
                     </li>
                 </ul>
                 <input type="submit" value="Submit"/>
-                <input type="reset"/>
+                <input type="reset" value="Reset"/>
                 <div class="errors" th:if="${#fields.hasAnyErrors()}">
                     <ul>
                         <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
                     </ul>
                 </div>
-
             </form>
         </div>
     </div>

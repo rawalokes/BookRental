@@ -19,21 +19,21 @@
         <div class="create-action">
             <a th:href="@{~/rent/create}"><button>Create</button></a>
         </div>
-        <!-- <span>Breakpoints on 900px and 400px</span> -->
+
         <table id="customers">
             <tr>
                 <th>SN</th>
                 <th>Name</th>
-                <th>Code</th>
+                <th>Stock</th>
                 <th>Action</th>
             </tr>
 
             <tr th:each="bookrented,index : ${rentedBook}">
                 <td th:text="${index.count}"></td>
-                <td th:text="${bookrented.bookName}"></td>
+                <td  th:text="${bookrented.book.name}"></td>
                 <td th:text="${bookrented.code}"></td>
+
                 <td>
-<!--                    <a th:href="@{~/member/delete/{id}(id=${member.id})}-->
                     <a th:href="@{~/rent/delete/{id} (id=${bookrented.book_id})}"><button>Delete</button></a>
                     |
                     <a th:href="@{~/rent/update/{id} (id=${bookrented.book_id})}"><button>Edit</button></a>

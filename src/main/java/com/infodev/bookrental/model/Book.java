@@ -41,7 +41,7 @@ public class Book {
     @Column(name = "rating")
     private Double rating;
 
-    private Date publishDate;
+    private String publishDate;
     @Column(name = "book_path")
     private String photoUrl;
 
