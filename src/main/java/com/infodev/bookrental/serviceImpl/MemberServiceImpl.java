@@ -1,11 +1,13 @@
 package com.infodev.bookrental.serviceImpl;
 
-import com.infodev.bookrental.dto.AuthorDto;
+import com.infodev.bookrental.components.SendEmailComponents;
 import com.infodev.bookrental.dto.MemberDto;
+import com.infodev.bookrental.dto.ResponseDto;
 import com.infodev.bookrental.model.Member;
 import com.infodev.bookrental.repo.MemberRepo;
 import com.infodev.bookrental.service.MemberService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,44 +20,67 @@ import java.util.stream.Collectors;
 @Service
 public class MemberServiceImpl implements MemberService {
     private final MemberRepo memberRepo;
+    private final SendEmailComponents sendEmailComponents;
 
-    public MemberServiceImpl(MemberRepo memberRepo) {
+    public MemberServiceImpl(MemberRepo memberRepo, SendEmailComponents sendEmailComponents) {
         this.memberRepo = memberRepo;
+        this.sendEmailComponents = sendEmailComponents;
     }
 
     @Override
-    public MemberDto create(MemberDto memberDto) {
-        Member reMember = dtoToMember(memberDto);
-        reMember = memberRepo.save(reMember);
-        return memberToDTO(reMember);
+    public ResponseDto create(MemberDto memberDto) {
+        try {
+            Member member = dtoToMember(memberDto);
+            memberRepo.save(member);
+            sendEmailComponents.sendEmail(memberDto.getEmail(),"Member",memberDto.getName());
+            return ResponseDto.builder()
+                    .responseStatus(true)
+                    .build();
+
+
+        } catch (Exception e) {
+            if (e.getMessage().contains("mobileNumber")) {
+                return errorResponse("mobile number already exists");
+            } else {
+                return errorResponse("email already exists");
+            }
+        }
+
     }
 
     @Override
     public List<MemberDto> showAll() {
         List<Member> memberList = memberRepo.findAll();
-        return memberList.stream().map(member -> MemberDto.builder()
-                .id(member.getId())
-                .name(member.getName())
-                .address(member.getAddress())
-                .mobileNumber(member.getMobileNumber())
-                .email(member.getAddress()).
-                build()).collect(Collectors.toList());
+        return memberList.stream().map(member -> memberToDTO(member)).collect(Collectors.toList());
     }
 
     @Override
-    public MemberDto findById(Integer integer) {
-        Optional<Member> member = memberRepo.findById(integer);
-        if (member.isPresent()) {
-            Member reterivedMember = member.get();
-            return memberToDTO(reterivedMember);
+    public ResponseDto findById(Integer integer) {
+        try {
+            Optional<Member> member = memberRepo.findById(integer);
+            if (member.isPresent()) {
+                Member reterivedMember = member.get();
+                return ResponseDto.builder()
+                        .responseStatus(true)
+                        .memberDto(memberToDTO(reterivedMember))
+                        .build();
+            }
+            return null;
+        } catch (Exception e) {
+            return errorResponse("Member Not Found");
+        }
+
+
+    }
+
+    @Override
+    public ResponseDto deleteById(Integer integer) {
+        try {
+            memberRepo.deleteById(integer);
+        } catch (Exception e) {
+            return errorResponse("Member Not Found");
         }
         return null;
-
-    }
-
-    @Override
-    public void deleteById(Integer integer) {
-        memberRepo.deleteById(integer);
     }
 
     private MemberDto memberToDTO(Member member) {
@@ -71,5 +96,13 @@ public class MemberServiceImpl implements MemberService {
                 .mobileNumber(memberDto.getMobileNumber())
                 .build();
     }
+
+    private ResponseDto errorResponse(String message) {
+        return ResponseDto.builder()
+                .responseStatus(false)
+                .response(message)
+                .build();
+    }
+
 
 }

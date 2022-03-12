@@ -1,10 +1,14 @@
 package com.infodev.bookrental.controller;
 
 import com.infodev.bookrental.dto.CategoryDto;
+import com.infodev.bookrental.dto.ResponseDto;
 import com.infodev.bookrental.serviceImpl.CategoryServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author rawalokes
@@ -33,7 +37,11 @@ public class CategoryController {
     }
 
     @PostMapping("/create")
-    public String postAddCategory(@ModelAttribute("categories") CategoryDto categoryDto) {
+    public String postAddCategory(@Valid @ModelAttribute("categories") CategoryDto categoryDto
+            , BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "/category/categorycreate";
+        }
         categoryService.create(categoryDto);
         return "redirect:/category/setup";
     }
@@ -45,9 +53,13 @@ public class CategoryController {
     }
     @GetMapping("/update/{id}")
     public String updateCategory(@PathVariable Integer id,Model model){
-        CategoryDto categoryDto=categoryService.findById(id);
-        model.addAttribute("categories",categoryDto);
-        return "/category/categorycreate";
+        ResponseDto responseDto =categoryService.findById(id);
+        if (responseDto.isResponseStatus()) {
+            model.addAttribute("categories", responseDto.getCategoryDto());
+            return "/category/categorycreate";
+        }
+        model.addAttribute("erroemessage",responseDto.getResponse());
+        return "category/categorysetup";
     }
 
 

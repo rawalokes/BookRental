@@ -1,6 +1,7 @@
 package com.infodev.bookrental.controller;
 
 import com.infodev.bookrental.dto.BookDto;
+import com.infodev.bookrental.dto.ResponseDto;
 import com.infodev.bookrental.serviceImpl.AuthorServiceImpl;
 import com.infodev.bookrental.serviceImpl.BookServiceImpl;
 import com.infodev.bookrental.serviceImpl.CategoryServiceImpl;
@@ -46,24 +47,39 @@ public class BookController {
 
     @PostMapping("/create")
     public String postCreateBook(@Valid @ModelAttribute("book") BookDto bookDto
-            , BindingResult bindingResult) throws IOException {
-        if (bindingResult.hasErrors()) return "/book/bookcreate";
-        bookService.create(bookDto);
-        return "redirect:/book/setup";
+            , BindingResult bindingResult,Model model) throws IOException {
+        if (bindingResult.hasErrors())
+            return "/book/bookcreate";
+
+        ResponseDto  responseDto= bookService.create(bookDto);
+        if (responseDto.isResponseStatus()){
+            return "redirect:/book/setup";
+        }
+        model.addAttribute("erroemessage",responseDto.getResponse());
+        return "/book/bookcreate";
     }
 
     @GetMapping("/delete/{id}")
-    public String removeBookById(@PathVariable Integer id) {
-        bookService.deleteById(id);
-        return "redirect:/book/setup";
+    public String removeBookById(@PathVariable Integer id,Model model) {
+        ResponseDto responseDto=bookService.deleteById(id);
+        if (responseDto.isResponseStatus()){
+            return "redirect:/book/setup";
+        }
+        model.addAttribute("erroemessage",responseDto.getResponse());
+        return "book/booksetup";
+
     }
 
     @GetMapping("/update/{id}")
     public String updateBookByID(@PathVariable Integer id, Model model) {
-        BookDto bookDto = bookService.findById(id);
-        model.addAttribute("book", bookDto);
-        model.addAttribute("categories", categoryService.showAll());
-        model.addAttribute("authors", authorService.showAll());
-        return "/book/bookcreate";
+        ResponseDto responseDto = bookService.findById(id);
+        if (responseDto.isResponseStatus()){
+            model.addAttribute("book", responseDto.getBookDto());
+            model.addAttribute("categories", categoryService.showAll());
+            model.addAttribute("authors", authorService.showAll());
+            return "/book/bookcreate";
+        }
+        model.addAttribute("erroemessage",responseDto.getResponse());
+        return "book/booksetup";
     }
 }

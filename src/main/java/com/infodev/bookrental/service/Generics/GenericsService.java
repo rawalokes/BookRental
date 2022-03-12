@@ -1,13 +1,15 @@
 package com.infodev.bookrental.service.Generics;
 
 
+import com.infodev.bookrental.dto.ResponseDto;
+
 import java.io.IOException;
 import java.util.List;
 
 public interface GenericsService <T,ID>{
-    public T create(T t) throws IOException;
+    public ResponseDto create(T t) throws IOException;
     public List<T> showAll();
-    public T findById(ID id);
-    public void deleteById(ID id);
+    public ResponseDto findById(ID id);
+    public ResponseDto deleteById(ID id);
 
 }

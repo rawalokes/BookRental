@@ -18,8 +18,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name ="brs_book")
+
 @Builder
+@Table(name ="brs_book", uniqueConstraints = {
+        @UniqueConstraint(name = "Book_Name", columnNames = {"book_name"}),
+        @UniqueConstraint(name = "Book_Isbn", columnNames = {"isbn"})
+})
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "Book_SEQ_GEN")
@@ -46,7 +50,7 @@ public class Book {
     private String photoUrl;
 
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "catrgory_id",referencedColumnName = "catrgory_id",
+    @JoinColumn(name = "category_id",referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "FK_Book_Category"))
     private Category category;
 

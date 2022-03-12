@@ -17,16 +17,19 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "brs_catrgory")
 
+@Table(name = "brs_catrgory", uniqueConstraints = {
+        @UniqueConstraint(name = "Category_Name", columnNames = {"category_name"}),
+
+})
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "catrgory_SEQ_GEN")
     @SequenceGenerator(name = "catrgory_SEQ_GEN", sequenceName = "catrgory_SEQ", allocationSize = 1)
-    @Column(name = "catrgory_id")
+
     private Integer id;
-    @Column(name = "catrgory_name")
+    @Column(name = "category_name")
     private String name;
     @Column(name = "description",length = 2000)
     private String description;

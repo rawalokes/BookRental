@@ -54,13 +54,15 @@ public class RentBookController {
     public String postCreateRent(@ModelAttribute ("rentBook") TransactionDto transactionDto) throws IOException {
 //        TransactionDto trs= transactionService.findById(transactionDto.getTransactionId());
 //        trs.setRentType(RentType.RENT);
-        transactionService.create(transactionDto);
+
+           transactionService.create(transactionDto);
+
         return "redirect:/rent/setup";
     }
     @GetMapping("/update/{id}")
     public String updateBookByID(@PathVariable Integer id, Model model) {
-        TransactionDto transactionDto=transactionService.findById(id);
-        model.addAttribute("rentBook",transactionDto);
+//        TransactionDto transactionDto=transactionService.findById(id);
+//        model.addAttribute("rentBook",transactionDto);
         model.addAttribute("members",memberService.showAll());
         model.addAttribute("books",bookService.showAll());
         return "/transaction/rent/rentbookcreate";

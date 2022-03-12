@@ -2,11 +2,13 @@ package com.infodev.bookrental.controller;
 
 import com.infodev.bookrental.components.SendEmailComponents;
 import com.infodev.bookrental.dto.AuthorDto;
+import com.infodev.bookrental.dto.ResponseDto;
 import com.infodev.bookrental.serviceImpl.AuthorServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -38,28 +40,42 @@ public class AuthorController {
     }
 
     @PostMapping("/create")
-    public String postAddAuthor( @Valid  @ModelAttribute("authorDetails")AuthorDto authorDto
-            , BindingResult bindingResult) {
+    public String postAddAuthor(@Valid  @ModelAttribute("authorDetails")AuthorDto authorDto
+            , BindingResult bindingResult,Model model) {
+
         if (bindingResult.hasErrors()) {
            return "author/authorCreate";
         }
-        authorService.create(authorDto);
-        return "redirect:/author/getall";
 
+        ResponseDto responseDto=authorService.create(authorDto);
+        System.out.println(responseDto.isResponseStatus());
+        if (responseDto.isResponseStatus()) {
+            return "redirect:/author/getall";
+        }
+        model.addAttribute("errormessage",responseDto.getResponse());
+        return "author/authorCreate";
     }
 
     @GetMapping("/delete/{id}")
-    public String removeAuthorByI(@PathVariable Integer id) {
-        authorService.deleteById(id);
-        return "redirect:/author/getall";
+    public String removeAuthorByI(@PathVariable Integer id,Model model) {
+        ResponseDto responseDto= authorService.deleteById(id);
+       if (responseDto.isResponseStatus()){
+           return "redirect:/author/getall";
+       }
+        model.addAttribute("errormessage",responseDto.getResponse());
+        return "author/authorCreate";
+
     }
 
     @GetMapping("/update/{id}")
     public String updateAuthorByI(@PathVariable Integer id, Model model) {
-        AuthorDto authorDto = authorService.findById(id);
-        model.addAttribute("authorDetails", authorDto);
-
-        return "/author/authorCreate";
+        ResponseDto responseDto= authorService.findById(id);
+        if (responseDto.isResponseStatus()){
+            model.addAttribute("authorDetails", responseDto.getAuthorDto());
+            return "/author/authorCreate";
+        }
+        model.addAttribute("errormessage",responseDto.getResponse());
+        return "author/authorCreate";
     }
 
 }

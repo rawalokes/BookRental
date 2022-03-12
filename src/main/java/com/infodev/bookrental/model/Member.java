@@ -15,7 +15,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "brs_member")
+
+@Table(name = "brs_member", uniqueConstraints = {
+        @UniqueConstraint(name = "Member_Email", columnNames = {"email"}),
+        @UniqueConstraint(name = "Member_phone", columnNames = {"number"})
+})
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

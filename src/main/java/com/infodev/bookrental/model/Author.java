@@ -17,28 +17,31 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "brs_author")
+@Table(name = "brs_author", uniqueConstraints = {
+        @UniqueConstraint(name = "Author_Email", columnNames = {"author_email"}),
+        @UniqueConstraint(name = "Author_Mobile", columnNames = {"author_phone"})
+})
+
 
 public class Author {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "Author_SEQ_GEN")
-    @SequenceGenerator(name ="Author_SEQ_GEN",sequenceName = "Author_SEQ",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Author_SEQ_GEN")
+    @SequenceGenerator(name = "Author_SEQ_GEN", sequenceName = "Author_SEQ", allocationSize = 1)
     @Column(name = "author_id")
     private Integer id;
 
-    @Column(name = "author_name",length = 30)
+    @Column(name = "author_name", length = 30)
     private String name;
 
-    @Column(name ="author_email",length = 200 )
+    @Column(name = "author_email", length = 200)
     private String email;
 
-    @Column(name ="author_phone", length = 10)
+    @Column(name = "author_phone", length = 10)
     private String phone;
 
     @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Book> books;
-
 
 
 }

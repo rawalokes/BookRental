@@ -4,7 +4,6 @@ import com.infodev.bookrental.components.FileComponents;
 import com.infodev.bookrental.dto.BookDto;
 import com.infodev.bookrental.dto.ResponseDto;
 import com.infodev.bookrental.model.Book;
-import com.infodev.bookrental.model.Category;
 import com.infodev.bookrental.repo.AuthorRepo;
 import com.infodev.bookrental.repo.BookRepo;
 import com.infodev.bookrental.repo.CategoryRepo;
@@ -36,39 +35,66 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto create(BookDto bookDto) throws IOException {
-        Book book = dtoToBook(bookDto);
-        bookRepo.save(book);
-        return bookToDto(book);
+    public ResponseDto create(BookDto bookDto) throws IOException {
+        try {
+            Book book = dtoToBook(bookDto);
+            bookRepo.save(book);
+            return ResponseDto.builder()
+                    .responseStatus(true)
+                    .response("Book added successfully")
+                    .build();
+
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .responseStatus(false)
+                    .response("Book cannot be created")
+                    .build();
+        }
+
     }
 
     @Override
     public List<BookDto> showAll() {
-        List<Book> books= bookRepo.findAll();
+        List<Book> books = bookRepo.findAll();
         return books.stream().map(book -> bookToDto(book)).collect(Collectors.toList());
     }
 
     @Override
-    public BookDto findById(Integer integer) {
-        Optional<Book> book = bookRepo .findById(integer);
+    public ResponseDto findById(Integer integer) {
 
-        if (book.isPresent()) {
-            Book retBook = book.get();
-            return bookToDto(retBook);
-        }
+            Optional<Book> book = bookRepo.findById(integer);
 
-        return null;
+            if (book.isPresent()) {
+                Book retBook = book.get();
+                return ResponseDto.builder()
+                        .responseStatus(true)
+                        .bookDto(bookToDto(retBook))
+                        .build();
+            }
+            else {
+                return errorStatus("book Not Found");
+            }
+
     }
 
     @Override
-    public void deleteById(Integer integer) {
+    public ResponseDto deleteById(Integer integer) {
 
+        try {
+            bookRepo.deleteById(integer);
+            return ResponseDto.builder()
+                    .response("Book deleted successfully")
+                    .responseStatus(true)
+                    .build();
+        } catch (Exception e) {
+            return errorStatus("Book not found");
 
+        }
     }
 
     private Book dtoToBook(BookDto bookDto) throws IOException {
-//        ResponseDto responseDto = fileComponents.filePath(bookDto.getMultipartFile());
-        ResponseDto responseDto=fileComponents.storeFile(bookDto.getMultipartFile());
+
+        ResponseDto responseDto = fileComponents.storeFile(bookDto.getMultipartFile());
         if (responseDto.isResponseStatus()) {
             return Book.builder()
                     .bookId(bookDto.getBookId())
@@ -104,5 +130,16 @@ public class BookServiceImpl implements BookService {
 
     }
 
+
+    /**
+     * @param message or error message
+     * @return responseDto object with response status false and response message
+     */
+    private ResponseDto errorStatus(String message) {
+        return ResponseDto.builder()
+                .responseStatus(false)
+                .response(message)
+                .build();
+    }
 
 }

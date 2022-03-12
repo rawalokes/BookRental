@@ -2,6 +2,7 @@ package com.infodev.bookrental.serviceImpl;
 
 import com.infodev.bookrental.components.SendEmailComponents;
 import com.infodev.bookrental.dto.AuthorDto;
+import com.infodev.bookrental.dto.ResponseDto;
 import com.infodev.bookrental.model.Author;
 import com.infodev.bookrental.repo.AuthorRepo;
 import com.infodev.bookrental.service.AuthorService;
@@ -18,58 +19,112 @@ import java.util.stream.Collectors;
  */
 @Controller
 public class AuthorServiceImpl implements AuthorService {
-    private AuthorRepo authorRepo;
-
     private final SendEmailComponents sendEmailComponents;
+    private final AuthorRepo authorRepo;
 
-    public AuthorServiceImpl(AuthorRepo authorRepo, SendEmailComponents sendEmailComponents) {
-        this.authorRepo = authorRepo;
+
+    public AuthorServiceImpl(SendEmailComponents sendEmailComponents, AuthorRepo authorRepo) {
         this.sendEmailComponents = sendEmailComponents;
+        this.authorRepo = authorRepo;
+
     }
+
+
 
     @Override
-    public AuthorDto create(AuthorDto authorDto) {
-        Author author = authorToDto(authorDto);
-        author = authorRepo.save(author);
-        sendEmailComponents.sendEmail(authorDto.getEmail());
-        return authorToDto(author);
+    public ResponseDto create(AuthorDto authorDto) {
+        try {
+            Author author = authorToDto(authorDto);
+            authorRepo.save(author);
+            sendEmailComponents.sendEmail(authorDto.getEmail(),"Author" ,authorDto.getName());
+            return ResponseDto.builder()
+                    .responseStatus(true)
+                    .response("Author created successfully")
+                    .build();
+        } catch (Exception e) {
+
+            if (e.getMessage().contains("author_mobile")) {
+                return ResponseDto.builder()
+                        .responseStatus(false)
+                        .response("Mobile number already exists").build();
+            } else {
+                return ResponseDto.builder()
+                        .responseStatus(false)
+                        .response("Email address exists").build();
+            }
+        }
+
     }
+
 
     @Override
     public List<AuthorDto> showAll() {
         List<Author> authors = authorRepo.findAll();
-        return authors.stream().map(reteriveAuthors -> AuthorDto.builder().id(reteriveAuthors.getId()).name(reteriveAuthors.getName())
-                .email(reteriveAuthors.getEmail()).mNumber(reteriveAuthors.getPhone()).build()).collect(Collectors.toList());
+        return authors.stream().map(reteriveAuthors -> AuthorDto.builder().id(reteriveAuthors.getId()).name(reteriveAuthors.getName()).email(reteriveAuthors.getEmail()).mNumber(reteriveAuthors.getPhone()).build()).collect(Collectors.toList());
     }
 
     @Override
-    public AuthorDto findById(Integer id) {
+    public ResponseDto findById(Integer id) {
         Optional<Author> author = authorRepo.findById(id);
         if (author.isPresent()) {
-            Author reteriveAuthor = author.get();
-            return authorToDto(reteriveAuthor);
+            Author retrieveAuthor = author.get();
+            return ResponseDto.builder()
+                    .responseStatus(true)
+                    .authorDto(authorToDto(retrieveAuthor))
+                    .build();
+        } else {
+            return errorStatus("Author not found");
         }
-
-        return null;
     }
+
 
     @Override
-    public void deleteById(Integer id) {
-        authorRepo.deleteById(id);
+    public ResponseDto deleteById(Integer id) {
+        try {
+            authorRepo.deleteById(id);
+            return ResponseDto.builder()
+                    .responseStatus(true)
+                    .response("Author deleted successfully")
+                    .build();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return errorStatus("Author not found");
+        }
     }
 
-    public AuthorDto authorToDto(Author author) {
-        return AuthorDto.builder().id(author.getId())
-                .name(author.getName())
-                .email(author.getEmail())
-                .mNumber(author.getPhone()).build();
+    /**
+     * map author into authorDTO
+     *
+     * @param author
+     * @return authorDto
+     */
+    private AuthorDto authorToDto(Author author) {
+        return AuthorDto.builder().id(author.getId()).name(author.getName()).email(author.getEmail()).mNumber(author.getPhone()).build();
     }
 
-    public Author authorToDto(AuthorDto authorDto) {
+    /**
+     * map authorDto into author
+     *
+     * @param authorDto
+     * @return author
+     */
+    private Author authorToDto(AuthorDto authorDto) {
         return Author.builder().id(authorDto.getId())
-                .name(authorDto.getName())
-                .email(authorDto.getEmail())
+                .name(authorDto.getName()).email(authorDto.getEmail())
                 .phone(authorDto.getMNumber()).build();
+    }
+
+    /**
+     * send error message with status false
+     *
+     * @param message error message
+     * @return responseDto
+     */
+    private ResponseDto errorStatus(String message) {
+        return ResponseDto.builder()
+                .responseStatus(false)
+                .response(message)
+                .build();
     }
 }

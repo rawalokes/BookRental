@@ -2,7 +2,6 @@ package com.infodev.bookrental.service;
 
 import com.infodev.bookrental.dto.AuthorDto;
 import com.infodev.bookrental.service.Generics.GenericsService;
-import org.springframework.stereotype.Service;
 
 /**
  * @author rawalokes
@@ -10,5 +9,5 @@ import org.springframework.stereotype.Service;
  * Time:11:39 PM
  */
 
-public interface AuthorService extends GenericsService<AuthorDto,Integer> {
+public interface AuthorService extends GenericsService<AuthorDto, Integer> {
 }

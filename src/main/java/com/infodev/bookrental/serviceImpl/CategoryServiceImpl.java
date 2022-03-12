@@ -1,6 +1,7 @@
 package com.infodev.bookrental.serviceImpl;
 
 import com.infodev.bookrental.dto.CategoryDto;
+import com.infodev.bookrental.dto.ResponseDto;
 import com.infodev.bookrental.model.Category;
 import com.infodev.bookrental.repo.CategoryRepo;
 import com.infodev.bookrental.service.CategoryService;
@@ -26,11 +27,24 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public CategoryDto create(CategoryDto categoryDto) {
-        Category category = toCategory(categoryDto);
-
-        category = categoryRepo.save(category);
-        return toCategoryDto(category);
+    public ResponseDto create(CategoryDto categoryDto) {
+        try {
+            Category category = toCategory(categoryDto);
+            categoryRepo.save(category);
+            return ResponseDto.builder()
+                    .responseStatus(true)
+                    .build();
+        } catch (Exception e) {
+            if (e.getMessage().contains("name")) {
+                return ResponseDto.builder()
+                        .responseStatus(false)
+                        .response("category already exits")
+                        .build();
+            }
+        }
+        return ResponseDto.builder()
+                .responseStatus(false)
+                .build();
     }
 
     @Override
@@ -44,18 +58,42 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto findById(Integer id) {
-        Optional<Category> category = categoryRepo.findById(id);
-        if (category.isPresent()) {
-            Category reteriveCategory = category.get();
-            return toCategoryDto(reteriveCategory);
+    public ResponseDto findById(Integer id) {
+        try {
+            Optional<Category> category = categoryRepo.findById(id);
+            if (category.isPresent()) {
+                Category retrieveCategory = category.get();
+                return ResponseDto.builder()
+                        .responseStatus(true)
+                        .categoryDto(toCategoryDto(retrieveCategory))
+                        .build();
+            }
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .responseStatus(false)
+                    .response("category not found")
+                    .build();
         }
-        return null;
+        return ResponseDto.builder()
+                .responseStatus(false)
+
+                .build();
     }
 
     @Override
-    public void deleteById(Integer id) {
-        categoryRepo.deleteById(id);
+    public ResponseDto deleteById(Integer id) {
+        try {
+            categoryRepo.deleteById(id);
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .responseStatus(false)
+                    .response("Not found")
+                    .build();
+        }
+        return ResponseDto.builder()
+                .responseStatus(false)
+                .build();
+
     }
 
 
@@ -75,8 +113,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
+     * map DTO into cartegory
      *
-     *  map DTO into cartegory
      * @param categoryDto to be maped into cagegory
      * @return category
      */

@@ -46,10 +46,14 @@
                 </ul>
                 <input type="submit" value="Submit"/>
                 <input type="reset"/>
+
                 <div class="errors" th:if="${#fields.hasAnyErrors()}">
                     <ul>
                         <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
                     </ul>
+                </div>
+                <div class="errors" th:if="${errormessage}">
+                    <p th:text="${errormessage}" ></p>
                 </div>
 
             </form>

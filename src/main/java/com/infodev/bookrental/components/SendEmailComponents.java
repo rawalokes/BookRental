@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SendEmailComponents {
-    public void sendEmail(String emailAdress)  {
-
+    public void sendEmail(String emailAddress, String role, String name)  {
         try{
             Email email = new SimpleEmail();
             email.setHostName("smtp.googlemail.com");
@@ -22,8 +21,8 @@ public class SendEmailComponents {
             email.setSSLOnConnect(true);
             email.setFrom("tryingdemo65@gmail.com");
             email.setSubject("Registration");
-            email.setMsg("congratulation you have registered as Author.");
-            email.addTo(emailAdress);
+            email.setMsg("Hi "+ name +" ,"+"\n Congratulation you have registered as "+ role);
+            email.addTo(emailAddress);
             email.send();
         }catch (Exception e){
             e.printStackTrace();

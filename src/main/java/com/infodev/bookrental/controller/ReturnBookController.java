@@ -57,10 +57,10 @@ public class ReturnBookController {
 //    }
     @GetMapping(value = "save/{id}")
     public String saveReturn( @PathVariable("id") Integer id) throws IOException {
-        TransactionDto transactionDto = transactionService.findById(id);
-        System.out.println("@#####################################");
-        transactionDto.setRentType(RentType.RETURN);
-        transactionService.create(transactionDto);
+//        TransactionDto transactionDto = transactionService.findById(id);
+
+//        transactionDto.setRentType(RentType.RETURN);
+//        transactionService.create(transactionDto);
         return "redirect:/return/setup";
     }
 

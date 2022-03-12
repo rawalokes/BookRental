@@ -18,10 +18,11 @@ import javax.validation.constraints.Size;
 @Builder
 public class CategoryDto {
     private Integer id;
-    @NotEmpty
+
     @Size(min = 3,max = 100,message = "invalid name")
     private String name;
-    @NotEmpty(message = "invalid description ")
+
+//    @NotEmpty(message = "invalid description ")
     @Size(max= 100,min=3,message = "invalid description")
     private String description;
 

@@ -1,5 +1,6 @@
 package com.infodev.bookrental.serviceImpl;
 
+import com.infodev.bookrental.dto.ResponseDto;
 import com.infodev.bookrental.dto.TransactionDto;
 import com.infodev.bookrental.enums.RentType;
 import com.infodev.bookrental.model.Book;
@@ -37,13 +38,14 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDto   create(TransactionDto transactionDto) throws IOException {
+    public ResponseDto create(TransactionDto transactionDto) throws IOException {
         Transaction transaction = dtoToTransaction(transactionDto);
         transaction = transactionRepo.save(transaction);
         Book book= bookRepo.findById(transactionDto.getBook_id()).get();
         book.setStockCount(book.getStockCount()-1);
         bookRepo.save(book);
-        return transactionToDto(transaction);
+//        return transactionToDto(transaction);
+        return null;
     }
 
     @Override
@@ -53,18 +55,19 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDto findById(Integer integer) {
+    public ResponseDto findById(Integer integer) {
          Optional<Transaction> transaction= transactionRepo.findById(integer);
            if (transaction.isPresent()){
                Transaction tran=transaction.get() ;
-               return transactionToDto(tran);
+//               return transactionToDto(tran);
+
            }
            return null;
     }
 
     @Override
-    public void deleteById(Integer integer) {
-
+    public ResponseDto deleteById(Integer integer) {
+        return null;
     }
 
     @Override

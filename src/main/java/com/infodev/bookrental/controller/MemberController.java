@@ -1,6 +1,7 @@
 package com.infodev.bookrental.controller;
 
 import com.infodev.bookrental.dto.MemberDto;
+import com.infodev.bookrental.dto.ResponseDto;
 import com.infodev.bookrental.serviceImpl.MemberServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,9 +55,13 @@ public class MemberController {
 
     @GetMapping("/update/{id}")
     public String updateMemberByID(@PathVariable Integer id, Model model) {
-        MemberDto memberDto = memberService.findById(id);
-        model.addAttribute("members", memberDto);
-        return "member/membercreate";
+        ResponseDto responseDto = memberService.findById(id);
+        if (responseDto.isResponseStatus()) {
+            model.addAttribute("members", responseDto.getMemberDto());
+            return "member/membercreate";
+        }
+        model.addAttribute("errormessage",responseDto.getResponse());
+        return "category/categorysetup";
     }
 
 }

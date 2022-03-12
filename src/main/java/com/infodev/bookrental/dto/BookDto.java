@@ -20,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
 public class BookDto {
     private Integer bookId;
     @NotEmpty(message = "name cannot be empty")
