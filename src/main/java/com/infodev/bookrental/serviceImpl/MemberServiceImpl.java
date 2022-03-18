@@ -31,8 +31,21 @@ public class MemberServiceImpl implements MemberService {
     public ResponseDto create(MemberDto memberDto) {
         try {
             Member member = dtoToMember(memberDto);
+            if (memberDto.getId() != null) {
+
+                String currentMail = memberDto.getEmail();
+                String databaseMail = memberRepo.findById(memberDto.getId()).get().getEmail();
+
+                if (!currentMail.equalsIgnoreCase(databaseMail)) {
+                    sendEmailComponents.sendEmail(memberDto.getEmail(), "Member", memberDto.getName(), true);
+                }
+
+            } else {
+                sendEmailComponents.sendEmail(memberDto.getEmail(), "Member", memberDto.getName(), false);
+            }
+
             memberRepo.save(member);
-            sendEmailComponents.sendEmail(memberDto.getEmail(),"Member",memberDto.getName());
+
             return ResponseDto.builder()
                     .responseStatus(true)
                     .build();
@@ -65,12 +78,12 @@ public class MemberServiceImpl implements MemberService {
                         .memberDto(memberToDTO(reterivedMember))
                         .build();
             }
-            return null;
+
         } catch (Exception e) {
             return errorResponse("Member Not Found");
         }
 
-
+        return null;
     }
 
     @Override

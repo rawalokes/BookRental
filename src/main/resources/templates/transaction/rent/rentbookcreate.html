@@ -52,14 +52,23 @@
                         <li>
                             <input th:field="*{code}" type="text" name="pages" class="field-divided" placeholder="code"
                             />
-                            <input th:field="*{noOfDays}" type="number" name="rating" class="field-divided"
-                                   placeholder="Rating"/>
+                            <input th:field="*{noOfDays}" type="text" name="rating" class="field-divided" placeholder="no of days"
+                                  />
                         </li>
 
                     </ul>
+
                     <input type="submit" value="Submit"/>
-                    <input type="reset"/>
+                    <input type="reset" value="Reset"/>
                 </ul>
+                <div class="errors" th:if="${#fields.hasAnyErrors()}">
+                    <ul>
+                        <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+                    </ul>
+                </div>
+                <div class="errors" th:if="${errormessage}">
+                    <p th:text="${errormessage}" ></p>
+                </div>
             </form>
         </div>
     </div>

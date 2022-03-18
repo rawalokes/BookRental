@@ -103,7 +103,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @param category to be mapped on dto
      * @return categoryDto
      */
-    private CategoryDto toCategoryDto(Category category) {
+    protected CategoryDto toCategoryDto(Category category) {
         return CategoryDto.builder()
                 .id(category.getId())
                 .name(category.getName())

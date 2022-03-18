@@ -30,7 +30,11 @@
             </tr>
             <tr th:each="book ,index: ${albooks}"  >
                 <td th:text="${index.count}"></td>
-                <td th:text="${book.name}"></td>
+                <a th:href="@{~/book/book-details/{id} (id= ${book.bookId})}">
+                    <td th:text="${book.name}">
+
+                    </td>
+                </a>
                 <td th:text="${book.isbn}"></td>
                 <td th:text="${book.stockCount}"></td>
 
@@ -38,6 +42,8 @@
                     <a th:href="@{~/book/delete/{id} (id= ${book.bookId})}"><button>Delete</button></a>
                     |
                     <a th:href="@{~/book/update/{id} (id= ${book.bookId})}"><button>Edit</button></a>
+                    |
+                    <a th:href="@{~/book/book-details/{id} (id= ${book.bookId})}"><button>View</button></a>
                 </td>
             </tr>
         </table>

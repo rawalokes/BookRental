@@ -1,20 +1,17 @@
 package com.infodev.bookrental.controller;
 
-import com.infodev.bookrental.dto.BookDto;
+import com.infodev.bookrental.dto.ResponseDto;
 import com.infodev.bookrental.dto.TransactionDto;
 import com.infodev.bookrental.enums.RentType;
-import com.infodev.bookrental.model.Member;
-import com.infodev.bookrental.model.Transaction;
 import com.infodev.bookrental.serviceImpl.BookServiceImpl;
 import com.infodev.bookrental.serviceImpl.MemberServiceImpl;
 import com.infodev.bookrental.serviceImpl.TransactionServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.validation.Valid;
 
 /**
  * @author rawalokes
@@ -36,7 +33,7 @@ public class RentBookController {
 
     @GetMapping("/setup")
     public String getAll(Model model) {
-        model.addAttribute("rentedBook" , transactionService.findTransactionsByRentType(RentType.RENT));
+        model.addAttribute("rentedBook", transactionService.findTransactionsByRentType(RentType.RENT));
 
         return "/transaction/rent/rentbook";
     }
@@ -44,27 +41,38 @@ public class RentBookController {
 
     @GetMapping("/create")
     public String getCreateRent(Model model) {
-        model.addAttribute("rentBook" ,new TransactionDto());
-        model.addAttribute("members",memberService.showAll());
-        model.addAttribute("books",bookService.showAll());
+        model.addAttribute("rentBook", new TransactionDto());
+        model.addAttribute("members", memberService.showAll());
+        model.addAttribute("books", bookService.showAll());
         return "/transaction/rent/rentbookcreate";
     }
 
     @PostMapping("/create")
-    public String postCreateRent(@ModelAttribute ("rentBook") TransactionDto transactionDto) throws IOException {
-//        TransactionDto trs= transactionService.findById(transactionDto.getTransactionId());
-//        trs.setRentType(RentType.RENT);
+    public String postCreateRent(@Valid @ModelAttribute("rentBook") TransactionDto transactionDto
+            , BindingResult bindingResult, Model model) {
 
-           transactionService.create(transactionDto);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("members", memberService.showAll());
+            model.addAttribute("books", bookService.showAll());
+            return "/transaction/rent/rentbookcreate";
+        }
 
-        return "redirect:/rent/setup";
+        transactionDto.setRentType(RentType.RENT);
+        ResponseDto responseDto = transactionService.create(transactionDto);
+        if (responseDto.isResponseStatus()){ return "redirect:/rent/setup";}
+
+        model.addAttribute("members", memberService.showAll());
+        model.addAttribute("books", bookService.showAll());
+        model.addAttribute("errormessage", responseDto.getResponse());
+        return "/transaction/rent/rentbookcreate";
     }
+
     @GetMapping("/update/{id}")
     public String updateBookByID(@PathVariable Integer id, Model model) {
 //        TransactionDto transactionDto=transactionService.findById(id);
 //        model.addAttribute("rentBook",transactionDto);
-        model.addAttribute("members",memberService.showAll());
-        model.addAttribute("books",bookService.showAll());
+        model.addAttribute("members", memberService.showAll());
+        model.addAttribute("books", bookService.showAll());
         return "/transaction/rent/rentbookcreate";
     }
 }

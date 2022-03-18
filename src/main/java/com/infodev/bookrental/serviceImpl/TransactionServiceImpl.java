@@ -11,7 +11,6 @@ import com.infodev.bookrental.repo.TransactionRepo;
 import com.infodev.bookrental.service.TransactionService;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -38,14 +37,37 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public ResponseDto create(TransactionDto transactionDto) throws IOException {
-        Transaction transaction = dtoToTransaction(transactionDto);
-        transaction = transactionRepo.save(transaction);
-        Book book= bookRepo.findById(transactionDto.getBook_id()).get();
-        book.setStockCount(book.getStockCount()-1);
-        bookRepo.save(book);
-//        return transactionToDto(transaction);
-        return null;
+    public ResponseDto create(TransactionDto transactionDto) {
+
+        try{
+            Transaction transaction = dtoToTransaction(transactionDto);
+            transactionRepo.save(transaction);
+            Book book = bookRepo.findById(transactionDto.getBook_id()).get();
+            if (transactionDto.getRentType().equals(RentType.RENT)) {
+                book.setStockCount(book.getStockCount() - 1);
+            }
+            if (transactionDto.getRentType().equals(RentType.RETURN)) {
+                book.setStockCount(book.getStockCount() +1);
+            }
+
+            bookRepo.save(book);
+            return ResponseDto.builder()
+                    .responseStatus(true)
+                    .build();
+        }catch (Exception e){
+            if (e.getMessage().contains("code")){
+                return ResponseDto.builder()
+                        .responseStatus(false)
+                        .response("Invalid code")
+                        .build();
+            }
+            return ResponseDto.builder()
+                    .responseStatus(false)
+                    .response("Try Again !")
+                    .build();
+
+        }
+
     }
 
     @Override
@@ -56,13 +78,24 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public ResponseDto findById(Integer integer) {
-         Optional<Transaction> transaction= transactionRepo.findById(integer);
-           if (transaction.isPresent()){
-               Transaction tran=transaction.get() ;
-//               return transactionToDto(tran);
+        Optional<Transaction> transaction = transactionRepo.findById(integer);
+        try {
+            if (transaction.isPresent()) {
+                Transaction retreiveTransaction =transaction.get();
+                return ResponseDto.builder()
+                        .responseStatus(true)
+                        .transactionDto(transactionToDto(retreiveTransaction))
+                        .build();
+            }
 
-           }
-           return null;
+        } catch (Exception e) {
+            return ResponseDto.builder()
+                    .responseStatus(false)
+                    .response("transaction not find")
+                    .build();
+        }
+
+        return null;
     }
 
     @Override
@@ -99,6 +132,8 @@ public class TransactionServiceImpl implements TransactionService {
                 .transactionId(transaction.getTransactionId())
                 .code(transaction.getCode())
                 .rentType(transaction.getRentType())
+                .fromDate(transaction.getFromDate())
+                .toDate(transaction.getToDate())
                 .noOfDays(diff).rentType(transaction.getRentType())
                 .member_id(transaction.getMember().getId()).book_id(transaction.getBook().getBookId()).book(transaction.getBook()).build();
     }

@@ -39,7 +39,8 @@ public class MemberController {
     }
 
     @PostMapping("/create")
-    public String postAddMember(@Valid @ModelAttribute("members") MemberDto memberDto, BindingResult bindingResult) {
+    public String postAddMember(@Valid @ModelAttribute("members") MemberDto memberDto,
+                                BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "/member/membercreate";
 

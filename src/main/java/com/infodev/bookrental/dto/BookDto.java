@@ -1,5 +1,7 @@
 package com.infodev.bookrental.dto;
 
+import com.infodev.bookrental.model.Author;
+import com.infodev.bookrental.model.Category;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,8 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.*;
-import java.util.Date;
 import java.util.List;
+
 
 /**
  * @author rawalokes
@@ -20,8 +22,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 public class BookDto {
+
     private Integer bookId;
     @NotEmpty(message = "name cannot be empty")
     private String name;
@@ -30,16 +32,16 @@ public class BookDto {
     private String isbn;
 
     @NotNull(message = "stock cannot be empty")
-    @Min(value =1 ,message = "invalid stock")
+    @Min(value = 1, message = "invalid stock")
     private Integer stockCount;
 
     @NotNull(message = "pages cannot be empty")
-    @Min(value = 10 ,message = "invalid no of pages")
+    @Min(value = 10, message = "invalid no of pages")
     private Integer noOfPages;
 
     @NotNull(message = "rating cannot be empty ")
-    @Min(value = 0,message = "min rating is 0")
-    @Max(value = 5 ,message = "max rating is 5")
+    @Min(value = 0, message = "min rating is 0")
+    @Max(value = 5, message = "max rating is 5")
     private Double rating;
 
     @NotNull
@@ -48,11 +50,28 @@ public class BookDto {
     private String publishDate;
 
     private String pathUrl;
-
-    @NotNull(message = "cannot be empty")
+    @NotNull(message = "please select an image")
     private MultipartFile multipartFile;
+
     private Integer categoryId;
     private List<Integer> AuthorId;
 
+    private List<AuthorDto> authorDtoList;
+    private List<Author> authors;
+    private Category category;
+    private CategoryDto categoryDto;
 
+    public static class BookDtoBuilder {
+        public BookDtoBuilder categoryDto(Category category) {
+
+            this.categoryDto = CategoryDto.builder()
+                    .id(category.getId())
+                    .name(category.getName())
+                    .build();
+            return this;
+        }
+
+
+
+    }
 }

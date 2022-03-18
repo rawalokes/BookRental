@@ -27,8 +27,12 @@ public class TransactionDto {
     @NotNull(message = "no of days cannot be empty")
     private Integer noOfDays = 0;
     private LocalDate toDate;
+
     private RentType rentType;
+    @NotNull(message = "Book cannot be empty")
     private Integer book_id;
+
+    @NotNull(message = "Member cannot be empty")
     private Integer member_id;
    private Book book;
 }

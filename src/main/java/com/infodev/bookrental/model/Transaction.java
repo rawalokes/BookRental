@@ -17,20 +17,26 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "brs_transaction")
 @Builder
+@Table(name = "brs_transaction")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "Transaction_SEQ_GEN")
     @SequenceGenerator(name = "Transaction_SEQ_GEN",sequenceName = "Transaction_SEQ",allocationSize = 1)
     private Integer transactionId;
+
     private String code;
+
     private LocalDate fromDate;
+
     private LocalDate toDate;
+
     @Enumerated(value = EnumType.STRING)
     private RentType rentType;
+
     @ManyToOne
     private Member member;
+
     @ManyToOne
     private Book book;
 

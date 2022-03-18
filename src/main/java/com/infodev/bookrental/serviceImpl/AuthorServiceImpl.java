@@ -36,7 +36,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             Author author = authorToDto(authorDto);
             authorRepo.save(author);
-            sendEmailComponents.sendEmail(authorDto.getEmail(),"Author" ,authorDto.getName());
+            sendEmailComponents.sendEmail(authorDto.getEmail(),"Author" ,authorDto.getName(),false);
             return ResponseDto.builder()
                     .responseStatus(true)
                     .response("Author created successfully")

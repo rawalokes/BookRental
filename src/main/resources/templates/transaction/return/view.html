@@ -20,17 +20,17 @@
 <div class="container">
     <h1>View Book</h1>
     <u><h2>Id:</h2></u>
-    <h2 th:text="${returnData.transactionId}" th:value="${returnData.transactionId}"></h2>
+    <h2 th:text="${returnData.transactionDto.transactionId}" th:value="${returnData.transactionDto.transactionId}"></h2>
     <u><h2>Book's Name:</h2></u>
-    <h2 th:text="${returnData.book.name}" th:value="${returnData.book.name}"></h2>
+    <h2 th:text="${returnData.transactionDto.book.name}" th:value="${returnData.transactionDto.book.name}"></h2>
     <u><h2>Book's Code:</h2></u>
-    <h2 th:text="${returnData.code}" th:value="${returnData.code}"></h2>
+    <h2 th:text="${returnData.transactionDto.code}" th:value="${returnData.transactionDto.code}"></h2>
     <u><h2>From Date:</h2></u>
-    <h2  th:text="${returnData.fromDate}"></h2>
+    <h2  th:text="${returnData.transactionDto.fromDate}"></h2>
     <u><h2>To Date:</h2></u>
-    <h2 th:text="${returnData.toDate}"></h2>
+    <h2 th:text="${returnData.transactionDto.toDate}"></h2>
 
-    <h2>  <a th:href="@{~/return/save/{id} (id=${returnData.transactionId})}" ><button>RETURN</button></a></h2>
+    <h2>  <a th:href="@{~/return/save/{id} (id=${returnData.transactionDto.transactionId})}" ><button>RETURN</button></a></h2>
 
 </div>
 

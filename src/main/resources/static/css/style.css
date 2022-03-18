@@ -29,7 +29,7 @@ h3 > a {
 #customers td,
 #customers th {
     border: 1px solid #ddd;
-    padding: 8px;
+
 }
 
 #customers tr:nth-child(even) {
@@ -464,4 +464,49 @@ ul > li > .selecto{
 ul > li > .selecting{
     background: none;
     margin-right: 20px;
+}
+/*view html page*/
+.tblCenter {
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: large;
+    font-weight: 200;
+    line-height: 1.5;
+    text-align: left;
+
+}
+
+table tr {
+    font-size: 20px;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+    height: auto;
+
+}
+
+h1 {
+    text-align: center;
+    text-decoration: underline;
+    margin-top: 20px;
+    margin-bottom: 3px;
+    font-weight: 300;
+}
+.h1back{
+    position: absolute;
+    margin-left: 65%;
+    background-color: aqua;
+    border-radius: 5px;
+    border: none;
+    padding: 5px;
+
+}
+
+tr:nth-child(odd) {
+    background-color: #eaf5f5;
 }

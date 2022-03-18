@@ -12,19 +12,27 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SendEmailComponents {
-    public void sendEmail(String emailAddress, String role, String name)  {
-        try{
+    public void sendEmail(String emailAddress, String role, String name, Boolean updateStatus) {
+        try {
             Email email = new SimpleEmail();
             email.setHostName("smtp.googlemail.com");
             email.setSmtpPort(465);
-            email.setAuthenticator(new DefaultAuthenticator("tryingdemo65@gmail.com","Helloworld@#12"));
+            email.setAuthenticator(new DefaultAuthenticator("tryingdemo65@gmail.com", "Helloworld@#12"));
             email.setSSLOnConnect(true);
             email.setFrom("tryingdemo65@gmail.com");
-            email.setSubject("Registration");
-            email.setMsg("Hi "+ name +" ,"+"\n Congratulation you have registered as "+ role);
+
+            if (updateStatus) {
+                email.setSubject("Email Updated");
+                email.setMsg("Hi " + name + " ," + "\n Your email address has been changed successfully");
+            } else {
+                email.setSubject("Registration");
+                email.setMsg("Hi " + name + " ," + "\n Congratulation you have registered as " + role);
+            }
+
+
             email.addTo(emailAddress);
             email.send();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error");
 

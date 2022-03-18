@@ -16,7 +16,7 @@
         </div>
 
         <div class="create-action">
-            <a th:href="@{~/return/return}"><button>Create</button></a>
+            <a th:href="@{~/return/return}"><button>Return</button></a>
         </div>
         <!-- <span>Breakpoints on 900px and 400px</span> -->
         <table id="customers">
@@ -30,6 +30,11 @@
                 <td th:text="${index.count}"></td>
                 <td th:text="${bookreturn.book.name}"></td>
                 <td th:text="${bookreturn.code}"></td>
+                <td>
+                    <a th:href="@{~/rent/view/{id} (id=${bookreturn.book_id})}"><button>View</button></a>
+                    |
+                    <a th:href="@{~/rent/update/{id} (id=${bookreturn.book_id})}"><button>Edit</button></a>
+                </td>
             </tr>
 
         </table>

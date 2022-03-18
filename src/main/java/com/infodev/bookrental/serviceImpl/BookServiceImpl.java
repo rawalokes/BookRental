@@ -1,8 +1,10 @@
 package com.infodev.bookrental.serviceImpl;
 
 import com.infodev.bookrental.components.FileComponents;
+import com.infodev.bookrental.dto.AuthorDto;
 import com.infodev.bookrental.dto.BookDto;
 import com.infodev.bookrental.dto.ResponseDto;
+import com.infodev.bookrental.model.Author;
 import com.infodev.bookrental.model.Book;
 import com.infodev.bookrental.repo.AuthorRepo;
 import com.infodev.bookrental.repo.BookRepo;
@@ -11,6 +13,7 @@ import com.infodev.bookrental.service.BookService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,20 +38,31 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseDto create(BookDto bookDto) throws IOException {
-        try {
-            Book book = dtoToBook(bookDto);
-            bookRepo.save(book);
-            return ResponseDto.builder()
-                    .responseStatus(true)
-                    .response("Book added successfully")
-                    .build();
+    public ResponseDto create(BookDto bookDto) {
+            try {
+
+                Book book = dtoToBook(bookDto);
+                if (book==null){
+                    return errorStatus("please select an jpeg , png  or jpg file");
+                }
+                bookRepo.save(book);
+                return ResponseDto.builder()
+                        .responseStatus(true)
+                        .response("Book added successfully")
+                        .build();
 
         } catch (Exception e) {
+            if (e.getMessage().contains("isbn")){
+                return ResponseDto.builder()
+                        .responseStatus(false)
+                        .response("Isbn already in use.")
+                        .build();
+            }
             return ResponseDto.builder()
                     .responseStatus(false)
-                    .response("Book cannot be created")
+                    .response(e.getMessage())
                     .build();
+
         }
 
     }
@@ -56,24 +70,23 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDto> showAll() {
         List<Book> books = bookRepo.findAll();
+        books.toString();
         return books.stream().map(book -> bookToDto(book)).collect(Collectors.toList());
     }
 
     @Override
     public ResponseDto findById(Integer integer) {
+        Optional<Book> book = bookRepo.findById(integer);
 
-            Optional<Book> book = bookRepo.findById(integer);
-
-            if (book.isPresent()) {
-                Book retBook = book.get();
-                return ResponseDto.builder()
-                        .responseStatus(true)
-                        .bookDto(bookToDto(retBook))
-                        .build();
-            }
-            else {
-                return errorStatus("book Not Found");
-            }
+        if (book.isPresent()) {
+            Book retBook = book.get();
+            return ResponseDto.builder()
+                    .responseStatus(true)
+                    .bookDto(bookToDto(retBook))
+                    .build();
+        } else {
+            return errorStatus("book Not Found");
+        }
 
     }
 
@@ -114,6 +127,7 @@ public class BookServiceImpl implements BookService {
     }
 
     private BookDto bookToDto(Book book) {
+
         return BookDto.builder()
                 .bookId(book.getBookId())
                 .name(book.getName())
@@ -126,8 +140,30 @@ public class BookServiceImpl implements BookService {
                 .categoryId(book.getCategory().getId())
                 .AuthorId(book.getAuthors().stream().map(
                         x -> x.getId()).collect(Collectors.toList()))
+                .categoryDto(categoryRepo.findById(book.getCategory().getId()).get())
+                .authorDtoList(convert(book.getAuthors()))
+                .pathUrl(fileComponents.returnFileAsBase64(book.getPhotoUrl()))
                 .build();
 
+    }
+
+    private BookDto setAuthors(BookDto bookDto) {
+        bookDto.setAuthors(authorRepo.findAllById(bookDto.getAuthorId()));
+        return bookDto;
+    }
+
+    public List<AuthorDto> convert(List<Author> authors) {
+        List<AuthorDto> authorDtoList = new ArrayList<AuthorDto>();
+        for (Author author : authors) {
+            authorDtoList.add(
+                    AuthorDto.builder()
+                            .id(author.getId())
+                            .name(author.getName())
+                            .email(author.getEmail())
+                            .mNumber(author.getPhone())
+                            .build());
+        }
+        return authorDtoList;
     }
 
 

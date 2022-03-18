@@ -15,8 +15,14 @@ import lombok.*;
 public class ResponseDto {
     private boolean responseStatus;
     private String response;
+
     private BookDto bookDto;
+
     private CategoryDto categoryDto;
+
     private MemberDto memberDto;
+
     private AuthorDto authorDto;
+
+    private TransactionDto transactionDto;
 }

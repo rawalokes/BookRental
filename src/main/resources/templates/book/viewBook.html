@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>view book</title>
+    <link rel="stylesheet" th:href="@{../../css/style.css}">
+</head>
+<body>
+<div >
+
+    <h1>Book Details</h1>
+    <a th:href="@{~/book/setup}"><button class="h1back">Back</button></a>
+<!--    th:src="${bookDto.photoLocation}"-->
+    <img class="center" th:src="${bookDetails.pathUrl}" alt="image not found">
+
+
+    <table class="tblCenter" th:object="${bookDetails}">
+        <tr>
+            <th>Book Name :</th>
+            <td th:text="*{name}"></td>
+
+        </tr>
+        <tr><th>Author Name:</th></tr>
+
+        <tr th:each="autho : ${bookDetails.getAuthorDtoList()} ">
+            <td></td>
+            <td th:text="${autho.name}"></td>
+
+        </tr>
+            <tr>
+            <th>Category Name :</th>
+            <td th:text="*{categoryDto.name}"></td>
+        </tr>
+        <tr>
+            <th>Isbn :</th>
+            <td th:text="*{isbn}"></td>
+
+        </tr>
+        <tr>
+            <th>Rating :</th>
+            <td th:text="*{rating}"></td>
+        </tr>
+        <tr>
+            <th>Stock :</th>
+            <td th:text="*{stockCount}"></td>
+
+        </tr>
+        <tr>
+            <th>Publish Date :</th>
+            <td th:text="*{publishDate}"></td>
+        </tr>
+    </table>
+
+</div>
+
+
+</body>
+</html>

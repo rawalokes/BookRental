@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Base64;
 import java.util.UUID;
 
 /**
@@ -19,15 +21,12 @@ import java.util.UUID;
 @Component
 public class FileComponents {
 
-    public ResponseDto storeFile(MultipartFile multipartFile) throws IOException, IOException {
+    public ResponseDto storeFile(MultipartFile multipartFile) throws  IOException {
 
         String directoryPath = System.getProperty("user.home") + File.separator + "Desktop" + File.separator + "WICC";
         File directoryFile = new File(directoryPath);
         if (!directoryFile.exists()){
             directoryFile.mkdirs();
-        }
-        else {
-            log.info("Folder already exists.");
         }
 
         String ext = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
@@ -46,8 +45,20 @@ public class FileComponents {
         else {
             return ResponseDto.builder()
                     .responseStatus(false)
-                    .response("invalid extension type").build();
+                    .build();
         }
     }
+    public String returnFileAsBase64(String filePath) {
+        File file = new File(filePath);
+        try{
+            byte[] bytes = Files.readAllBytes(file.toPath());
+            String base64EncodedImage = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
+            return base64EncodedImage;
+        }catch (IOException exception){
+
+            return null;
+        }
+    }
+
 
 }

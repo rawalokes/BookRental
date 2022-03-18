@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
 
+
 /**
  * @author rawalokes
  * Date:2/26/22
@@ -47,25 +48,29 @@ public class BookController {
 
     @PostMapping("/create")
     public String postCreateBook(@Valid @ModelAttribute("book") BookDto bookDto
-            , BindingResult bindingResult,Model model) throws IOException {
-        if (bindingResult.hasErrors())
+            , BindingResult bindingResult, Model model) throws IOException {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryService.showAll());
+            model.addAttribute("authors", authorService.showAll());
             return "/book/bookcreate";
-
-        ResponseDto  responseDto= bookService.create(bookDto);
-        if (responseDto.isResponseStatus()){
+        }
+        ResponseDto responseDto = bookService.create(bookDto);
+        if (responseDto.isResponseStatus()) {
             return "redirect:/book/setup";
         }
-        model.addAttribute("erroemessage",responseDto.getResponse());
+        model.addAttribute("categories", categoryService.showAll());
+        model.addAttribute("authors", authorService.showAll());
+        model.addAttribute("errormessage", responseDto.getResponse());
         return "/book/bookcreate";
     }
 
     @GetMapping("/delete/{id}")
-    public String removeBookById(@PathVariable Integer id,Model model) {
-        ResponseDto responseDto=bookService.deleteById(id);
-        if (responseDto.isResponseStatus()){
+    public String removeBookById(@PathVariable Integer id, Model model) {
+        ResponseDto responseDto = bookService.deleteById(id);
+        if (responseDto.isResponseStatus()) {
             return "redirect:/book/setup";
         }
-        model.addAttribute("erroemessage",responseDto.getResponse());
+        model.addAttribute("errormessage", responseDto.getResponse());
         return "book/booksetup";
 
     }
@@ -73,13 +78,29 @@ public class BookController {
     @GetMapping("/update/{id}")
     public String updateBookByID(@PathVariable Integer id, Model model) {
         ResponseDto responseDto = bookService.findById(id);
-        if (responseDto.isResponseStatus()){
+        if (responseDto.isResponseStatus()) {
             model.addAttribute("book", responseDto.getBookDto());
             model.addAttribute("categories", categoryService.showAll());
             model.addAttribute("authors", authorService.showAll());
             return "/book/bookcreate";
         }
-        model.addAttribute("erroemessage",responseDto.getResponse());
+        model.addAttribute("errormessage", responseDto.getResponse());
         return "book/booksetup";
     }
+
+    @GetMapping("/book-details/{id}")
+    public String showBookDetails(@PathVariable Integer id, Model model) {
+        ResponseDto responseDto = bookService.findById(id);
+        if (responseDto.isResponseStatus()) {
+            model.addAttribute("bookDetails", responseDto.getBookDto());
+
+//            model.addAttribute("categoryList",categoryService.findById(responseDto.getCategoryDto().getId()));
+
+            return "/book/viewBook";
+        }
+        model.addAttribute("errormessage", responseDto.getResponse());
+        return "book/booksetup";
+
+    }
+
 }
