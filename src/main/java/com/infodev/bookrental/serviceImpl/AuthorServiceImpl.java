@@ -105,7 +105,6 @@ public class AuthorServiceImpl implements AuthorService {
 
     /**
      * map authorDto into author
-     *
      * @param authorDto
      * @return author
      */

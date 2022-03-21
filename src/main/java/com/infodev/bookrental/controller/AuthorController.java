@@ -21,7 +21,7 @@ import javax.validation.Valid;
 @RequestMapping("/author")
 public class AuthorController {
     private final AuthorServiceImpl authorService;
-    private SendEmailComponents sendEmailComponents;
+
 
     public AuthorController(AuthorServiceImpl authorService) {
         this.authorService = authorService;
@@ -33,12 +33,24 @@ public class AuthorController {
         return "author/authorSetup";
     }
 
+    /**
+     * redirect to authorCreate page with author details
+     * @param model
+     * @return
+     */
     @GetMapping("/create")
     public String getAddAuthor(Model model) {
         model.addAttribute("authorDetails", new AuthorDto());
         return "author/authorCreate";
     }
 
+    /**
+     *
+     * @param authorDto
+     * @param bindingResult to catch error
+     * @param model
+     * @return
+     */
     @PostMapping("/create")
     public String postAddAuthor(@Valid  @ModelAttribute("authorDetails")AuthorDto authorDto
             , BindingResult bindingResult,Model model) {
@@ -56,6 +68,12 @@ public class AuthorController {
         return "author/authorCreate";
     }
 
+    /**
+     * delete using author's id
+     * @param id
+     * @param model
+     * @return authorCreate.html page
+     */
     @GetMapping("/delete/{id}")
     public String removeAuthorByI(@PathVariable Integer id,Model model) {
         ResponseDto responseDto= authorService.deleteById(id);
@@ -67,6 +85,12 @@ public class AuthorController {
 
     }
 
+    /**
+     * update using author's id
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("/update/{id}")
     public String updateAuthorByI(@PathVariable Integer id, Model model) {
         ResponseDto responseDto= authorService.findById(id);
