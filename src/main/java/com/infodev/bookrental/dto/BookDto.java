@@ -26,6 +26,7 @@ public class BookDto {
 
     private Integer bookId;
     @NotEmpty(message = "name cannot be empty")
+    @Pattern(regexp = "[a-zA-Z]+",message = "Name cannot have numbers or special character")
     private String name;
 
     @NotEmpty(message = "isbn cannot be empty")

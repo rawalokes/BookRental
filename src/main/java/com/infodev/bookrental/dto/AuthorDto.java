@@ -21,6 +21,7 @@ public class AuthorDto {
 
     @NotEmpty(message = "name cannot be empty")
     @Size(min = 3, message = "invalid name")
+    @Pattern(regexp = "[a-zA-Z]+",message = "Name cannot have numbers or special character")
     private String name;
 
     @NotEmpty(message = "email cannot be empty")
@@ -28,5 +29,6 @@ public class AuthorDto {
     private String email;
     @NotEmpty(message = "mobile cannot be empty")
     @Size(min = 10,max = 10, message = "invalid mobile no")
+    @Pattern(regexp ="[9][0-9]{9}",message = "invalid number")
     private String mNumber;
 }

@@ -5,6 +5,7 @@ import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -20,6 +21,7 @@ import javax.validation.constraints.Size;
 public class MemberDto {
     private Integer id;
     @Size(max = 40,min = 3,message = "invalid name")
+    @Pattern(regexp = "[a-zA-Z]+",message = "Name cannot have numbers or special character")
     private String name;
 
     @Email(message = "invalid email")
