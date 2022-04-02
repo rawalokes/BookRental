@@ -40,6 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
     public ResponseDto create(TransactionDto transactionDto) {
 
         try{
+            //conversion of dto into transaction
             Transaction transaction = dtoToTransaction(transactionDto);
             transactionRepo.save(transaction);
             Book book = bookRepo.findById(transactionDto.getBook_id()).get();

@@ -29,7 +29,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public ResponseDto create(CategoryDto categoryDto) {
         try {
+            //convert category dto into category
             Category category = toCategory(categoryDto);
+            //save category
             categoryRepo.save(category);
             return ResponseDto.builder()
                     .responseStatus(true)
@@ -49,7 +51,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> showAll() {
+        //find all category
         List<Category> categories = categoryRepo.findAll();
+        //return list of category dto after converting into category
         return categories.stream().map(category -> CategoryDto.builder()
                 .id(category.getId())
                 .name(category.getName())

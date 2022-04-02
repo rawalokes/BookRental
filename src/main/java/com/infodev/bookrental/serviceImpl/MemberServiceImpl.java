@@ -30,20 +30,24 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public ResponseDto create(MemberDto memberDto) {
         try {
+            //convert memberdto into member
             Member member = dtoToMember(memberDto);
+            //if member is newly created
             if (memberDto.getId() != null) {
 
                 String currentMail = memberDto.getEmail();
                 String databaseMail = memberRepo.findById(memberDto.getId()).get().getEmail();
-
+                //check if mail is changed
                 if (!currentMail.equalsIgnoreCase(databaseMail)) {
+                    //send email saying your email is changed
                     sendEmailComponents.sendEmail(memberDto.getEmail(), "Member", memberDto.getName(), true);
                 }
 
             } else {
+
                 sendEmailComponents.sendEmail(memberDto.getEmail(), "Member", memberDto.getName(), false);
             }
-
+            //save member
             memberRepo.save(member);
 
             return ResponseDto.builder()

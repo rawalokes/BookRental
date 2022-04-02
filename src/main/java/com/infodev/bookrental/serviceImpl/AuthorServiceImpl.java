@@ -34,8 +34,11 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public ResponseDto create(AuthorDto authorDto) {
         try {
-            Author author = authorToDto(authorDto);
+            //convert dto to author
+            Author author = dtoToAuthor(authorDto);
+//            save author
             authorRepo.save(author);
+            //send email to register author
             sendEmailComponents.sendEmail(authorDto.getEmail(),"Author" ,authorDto.getName(),false);
             return ResponseDto.builder()
                     .responseStatus(true)
@@ -43,7 +46,7 @@ public class AuthorServiceImpl implements AuthorService {
                     .build();
         } catch (Exception e) {
 
-            if (e.getMessage().contains("author_mobile")) {
+            if (e   .getMessage().contains("author_mobile")) {
                 return ResponseDto.builder()
                         .responseStatus(false)
                         .response("Mobile number already exists").build();
@@ -60,6 +63,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public List<AuthorDto> showAll() {
         List<Author> authors = authorRepo.findAll();
+        //return list of author dto after converting author  into dto
         return authors.stream().map(reteriveAuthors -> AuthorDto.builder().id(reteriveAuthors.getId()).name(reteriveAuthors.getName()).email(reteriveAuthors.getEmail()).mNumber(reteriveAuthors.getPhone()).build()).collect(Collectors.toList());
     }
 
@@ -70,7 +74,8 @@ public class AuthorServiceImpl implements AuthorService {
             Author retrieveAuthor = author.get();
             return ResponseDto.builder()
                     .responseStatus(true)
-                    .authorDto(authorToDto(retrieveAuthor))
+                    //convert author into dto
+                    .authorDto(dtoToAuthor(retrieveAuthor))
                     .build();
         } else {
             return errorStatus("Author not found");
@@ -99,7 +104,7 @@ public class AuthorServiceImpl implements AuthorService {
      * @param author
      * @return authorDto
      */
-    private AuthorDto authorToDto(Author author) {
+    private AuthorDto dtoToAuthor(Author author) {
         return AuthorDto.builder().id(author.getId()).name(author.getName()).email(author.getEmail()).mNumber(author.getPhone()).build();
     }
 
@@ -108,7 +113,7 @@ public class AuthorServiceImpl implements AuthorService {
      * @param authorDto
      * @return author
      */
-    private Author authorToDto(AuthorDto authorDto) {
+    private Author dtoToAuthor(AuthorDto authorDto) {
         return Author.builder().id(authorDto.getId())
                 .name(authorDto.getName()).email(authorDto.getEmail())
                 .phone(authorDto.getMNumber()).build();
