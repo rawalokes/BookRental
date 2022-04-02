@@ -1,8 +1,10 @@
 # WICC-Java
+Details about BookRenting:
+<br/>
+**BookRenting is web based application developed with spring boot.**
+* jdk:11.0
+* Databse:postgres
+* Database name:bookrentsys
+* Database password:ayvpp
+* Server port:4444
 
-
-
-clone open with intellij and  wait till intellij setup all dependecy and you are ready to go.
-It runs on 4444 post.
-at this point it may not handel all errors 
-and doesnt support retuen at this time
